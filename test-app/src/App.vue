@@ -47,7 +47,7 @@
   <v-main>
 
     <!-- Provides the application the proper gutter -->
-    <v-container fluid class="margin-top">
+    <v-container class="margin-top">
 
       <!-- If using vue-router -->
       <router-view></router-view>

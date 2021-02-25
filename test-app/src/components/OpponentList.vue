@@ -23,6 +23,10 @@ export default {
                 text: 'Lefty'
                 , value: 'lefty' 
             },
+            {
+                text: 'Active'
+                , value: 'active'
+            }
         ]
     }),
 
@@ -30,7 +34,7 @@ export default {
 
         opponents: function(){
 
-            return this.$store.getters.opponents;
+            return this.$store.state.opponents;
         }
     }
 }

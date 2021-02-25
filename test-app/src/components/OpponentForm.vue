@@ -4,6 +4,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        @submit.prevent="submit"
       >
             <v-text-field
                 v-model="displayName"
@@ -17,9 +18,14 @@
             :label="`${switchLabel}`"
             ></v-switch>
 
+            <v-checkbox
+            v-model="active"
+            label="Player is active?"
+            ></v-checkbox>
+
             <v-btn
             class="mr-4"
-            @click="submit"
+            type="submit"
             >
             submit
             </v-btn>
@@ -38,17 +44,20 @@ export default {
         valid: true
         , displayName: ''
         , lefty: false
+        , active: true
     }),
     methods: {
 
         submit: function() {
 
+            console.log(this.lefty)
             const id = uuidv4();
             const opponent = {
 
                 id: id
                 , displayName: this.displayName
                 , lefty: this.lefty
+                , active: this.active
             };
 
             this.$store.dispatch(ADD_OPPONENT, opponent);

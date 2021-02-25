@@ -25,9 +25,9 @@ export default new Vuex.Store({
   },
   getters: {
 
-    opponents: state => {
+    activeOpponents: state => {
 
-      return state.opponents.sort(x => x.displayName);
+      return state.opponents.filter(o => o.active);
     }
   },
   mutations: {

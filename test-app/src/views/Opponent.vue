@@ -1,7 +1,7 @@
 <template>
   <div class="about">
 
-      <v-tabs v-model="tabs">
+      <v-tabs v-model="tabs" center-active>
         <v-tabs-slider color="yellow"></v-tabs-slider>
 
         <v-tab>

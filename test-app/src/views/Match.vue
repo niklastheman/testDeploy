@@ -1,11 +1,15 @@
 <template>
   <div>
-    match
+    <MatchForm />
   </div>
 </template>
 
 <script>
-export default {};
+import MatchForm from "../components/MatchForm.vue"
+
+export default{ 
+  components: { MatchForm }
+  }
 </script>
 
 <style></style>
