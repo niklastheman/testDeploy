@@ -1,5 +1,14 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <opponent-list />
   </div>
 </template>
+
+<script>
+import OpponentList from '../components/OpponentList.vue'
+export default {
+  components: { OpponentList },
+  
+
+}
+</script>

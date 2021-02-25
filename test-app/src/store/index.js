@@ -13,6 +13,14 @@ export default new Vuex.Store({
       }
     ]
   },
+  getters: {
+
+
+    opponents: state => {
+      
+      return state.opponents;
+    }
+  },
   mutations: {},
   actions: {},
   modules: {}

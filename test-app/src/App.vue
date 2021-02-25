@@ -3,7 +3,6 @@
 
      <v-app-bar
         absolute
-        color="white"
         elevate-on-scroll
         scroll-target="#scrolling-techniques-7"
       >
@@ -25,7 +24,6 @@
         dense
       >
         <v-list-item-group
-          v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
         <router-link to="/match">
@@ -34,8 +32,8 @@
               Match
             </v-list-item-title>
           </v-list-item>
-</router-link>
-<router-link to="/opponent">
+        </router-link>
+        <router-link to="/opponent">
           <v-list-item>
            <v-list-item-title>
               Opponent
@@ -46,9 +44,16 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main>
-      <router-view />
-    </v-main>
+  <v-main>
+
+    <!-- Provides the application the proper gutter -->
+    <v-container fluid class="margin-top">
+
+      <!-- If using vue-router -->
+      <router-view></router-view>
+    </v-container>
+  </v-main>
+
   </v-app>
 </template>
 
@@ -62,6 +67,13 @@ export default {
 
   data: () => ({
     drawer: false
-  })
+  }),
 };
 </script>
+
+<style>
+
+.margin-top{
+  margin-top: 4rem;
+}
+</style>
