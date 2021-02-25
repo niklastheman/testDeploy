@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { INIT_APP } from '@/store/index.js';
 
 export default {
   name: "App",
@@ -68,12 +69,17 @@ export default {
   data: () => ({
     drawer: false
   }),
+
+  beforeCreate: function(){
+
+    this.$store.dispatch(INIT_APP);
+  },
 };
 </script>
 
 <style>
 
 .margin-top{
-  margin-top: 4rem;
+  margin-top: 52px;
 }
 </style>
