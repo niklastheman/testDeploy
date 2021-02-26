@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 //mutations
+const SET_USER = 'SET_USER'; 
 const SET_OPPONENTS = 'SET_OPPONENTS'; 
 const ADD_OPPONENT = 'ADD_OPPONENT'; 
 const REMOVE_OPPONENT = 'REMOVE_OPPONENT'; 
@@ -13,6 +14,7 @@ const REMOVE_MATCHES = 'REMOVE_MATCHES';
 const INIT_APP = 'INIT_APP';
 
 // data types
+const USER = 'USER'; 
 const OPPONENTS = 'OPPONENTS'; 
 const MATCHES = 'MATCHES'; 
 
@@ -20,6 +22,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    activeUser: null,
     opponents: [],
     matches: []
   },
@@ -28,10 +31,18 @@ export default new Vuex.Store({
     activeOpponents: state => {
 
       return state.opponents.filter(o => o.active);
+    },
+
+    userIsSet: state => {
+
+      return state.activeUser != null;
     }
   },
   mutations: {
+    [SET_USER](state, payload){
 
+      state.activeUser = payload;
+    },
     [SET_OPPONENTS](state, payload){
 
       state.opponents = payload;
@@ -63,6 +74,14 @@ export default new Vuex.Store({
 
     async [INIT_APP]({commit}) {
 
+      const userObj = localStorage.getItem(USER);
+      const user = JSON.parse(userObj);
+
+      if(user != null){
+
+        commit(SET_USER, user);
+      }
+
       const opponentObj = localStorage.getItem(OPPONENTS);
       const opponents = JSON.parse(opponentObj);
       
@@ -79,7 +98,11 @@ export default new Vuex.Store({
         commit(SET_MATCHES, matches);
       }
     },
+    [SET_USER]({commit}, payload){
 
+      commit(SET_USER, payload);
+      localStorage.setItem(USER, payload);
+    },
     [ADD_OPPONENT]({commit, state}, payload){
 
       commit(ADD_OPPONENT, payload);

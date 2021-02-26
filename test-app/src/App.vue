@@ -49,8 +49,14 @@
     <!-- Provides the application the proper gutter -->
     <v-container class="margin-top">
 
+      <template v-if="userIsSet">
+        <router-view></router-view>
+      </template>
       <!-- If using vue-router -->
-      <router-view></router-view>
+
+      <template v-else>
+        
+      </template>
     </v-container>
   </v-main>
 
@@ -59,6 +65,7 @@
 
 <script>
 import { INIT_APP } from '@/store/index.js';
+import { mapGetters } from 'vuex'
 
 export default {
   name: "App",
@@ -69,6 +76,13 @@ export default {
   data: () => ({
     drawer: false
   }),
+  computed: {
+
+    ...mapGetters([
+      'userIsSet'
+    ])
+
+  },
 
   beforeCreate: function(){
 

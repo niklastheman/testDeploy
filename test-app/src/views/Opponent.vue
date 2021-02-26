@@ -20,7 +20,7 @@
          </v-tab-item>
         <v-tab-item>
           <v-container fluid>
-            <opponent-form />
+            <player-form />
           </v-container>
         </v-tab-item>
       </v-tabs-items>
@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import OpponentForm from '../components/OpponentForm.vue'
+import PlayerForm from '../components/PlayerForm.vue'
 import OpponentList from '../components/OpponentList.vue'
 export default {
-  components: { OpponentList, OpponentForm },
+  components: { OpponentList, PlayerForm },
   
   data: () => ({
     tabs: null
