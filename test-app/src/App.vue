@@ -35,7 +35,7 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title>{{title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -78,6 +78,10 @@ export default {
     welcomeSubTitle: "Give us your skillz",
   }),
   computed: {
+    title: function(){
+      
+      return this.$route.name;
+    },
     ...mapGetters(["userIsSet"]),
   },
 

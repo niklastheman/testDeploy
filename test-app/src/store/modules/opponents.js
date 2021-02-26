@@ -31,8 +31,8 @@ export default {
     },
   },
   actions: {
-    [ADD_OPPONENT]({ commit, state }, payload) {
-      commit(ADD_OPPONENT, payload);
+    [_ADD_OPPONENT]({ commit, state }, payload) {
+      commit(_ADD_OPPONENT, payload);
       localStorage.setItem(OPPONENTS, JSON.stringify(state.opponents));
     },
   },
