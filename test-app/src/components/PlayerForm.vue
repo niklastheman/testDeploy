@@ -18,11 +18,6 @@
             :label="`${switchLabel}`"
             ></v-switch>
 
-            <v-checkbox
-            v-model="active"
-            label="Player is active?"
-            ></v-checkbox>
-
             <v-btn
             class="mr-4"
             type="submit"
@@ -36,10 +31,17 @@
 <script>
 
 import { v4 as uuidv4 } from 'uuid';
-import { ADD_OPPONENT } from '@/store/index.js';
+import { SET_USER } from '@/store/types.js';
+import { ADD_OPPONENT } from '@/store/modules/opponents.js';
 
 export default {
-    
+    props: {
+
+        isUser: {
+            type: Boolean
+            , default: false
+        }
+    },
     data: () => ({
         valid: true
         , displayName: ''
@@ -49,18 +51,24 @@ export default {
     methods: {
 
         submit: function() {
-
-            console.log(this.lefty)
+            
             const id = uuidv4();
             const opponent = {
 
                 id: id
                 , displayName: this.displayName
                 , lefty: this.lefty
-                , active: this.active
             };
 
-            this.$store.dispatch(ADD_OPPONENT, opponent);
+            if(this.isUser == false){
+
+                this.$store.dispatch(ADD_OPPONENT, opponent);
+            }
+            else{
+
+                this.$store.dispatch(SET_USER, opponent);
+            }
+
             this.$refs.form.reset();
         }
     },

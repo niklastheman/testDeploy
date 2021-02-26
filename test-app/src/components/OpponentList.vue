@@ -1,5 +1,5 @@
 <template>
-    <v-data-table
+  <v-data-table
     :headers="headers"
     :items="opponents"
     :items-per-page="5"
@@ -8,38 +8,33 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
+  data: () => ({
+    headers: [
+      {
+        text: "Name",
+        align: "start",
+        sortable: true,
+        value: "displayName",
+      },
+      {
+        text: "Lefty",
+        value: "lefty",
+      },
+      {
+        text: "Active",
+        value: "active",
+      },
+    ],
+  }),
 
-    data: () => ({
-
-        headers: [
-            {
-                text: 'Name',
-                align: 'start',
-                sortable: true,
-                value: 'displayName',
-            },
-            { 
-                text: 'Lefty'
-                , value: 'lefty' 
-            },
-            {
-                text: 'Active'
-                , value: 'active'
-            }
-        ]
+  computed: {
+    ...mapState({
+      opponents: "opponents",
     }),
-
-    computed: {
-
-        opponents: function(){
-
-            return this.$store.state.opponents;
-        }
-    }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

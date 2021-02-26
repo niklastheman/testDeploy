@@ -1,99 +1,94 @@
 <template>
   <v-app>
-
-     <v-app-bar
-        absolute
-        elevate-on-scroll
-        scroll-target="#scrolling-techniques-7"
-      >
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
-        <v-toolbar-title>Title</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-      </v-app-bar>
-
-     <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      bottom
-      temporary
-      >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          active-class="deep-purple--text text--accent-4"
-        >
-        <router-link to="/match">
-          <v-list-item>
-            <v-list-item-title>
-              Match
-            </v-list-item-title>
-          </v-list-item>
-        </router-link>
-        <router-link to="/opponent">
-          <v-list-item>
-           <v-list-item-title>
-              Opponent
-            </v-list-item-title>
-          </v-list-item>
+    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+      <v-list nav dense>
+        <v-list-item-group active-class="deep-purple--text text--accent-4">
+          <router-link to="/">
+            <v-list-item>
+              <v-list-item-title>
+                Home
+              </v-list-item-title>
+            </v-list-item>
+          </router-link>
+          <router-link to="/matches">
+            <v-list-item>
+              <v-list-item-title>
+                Match
+              </v-list-item-title>
+            </v-list-item>
+          </router-link>
+          <router-link to="/opponents">
+            <v-list-item>
+              <v-list-item-title>
+                Opponent
+              </v-list-item-title>
+            </v-list-item>
           </router-link>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
-  <v-main>
+    <v-app-bar
+      absolute
+      elevate-on-scroll
+      scroll-target="#scrolling-techniques-7"
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-    <!-- Provides the application the proper gutter -->
-    <v-container class="margin-top">
+      <v-toolbar-title>Title</v-toolbar-title>
 
-      <template v-if="userIsSet">
-        <router-view></router-view>
-      </template>
-      <!-- If using vue-router -->
+      <v-spacer></v-spacer>
+    </v-app-bar>
 
-      <template v-else>
-        
-      </template>
-    </v-container>
-  </v-main>
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container class="margin-top">
+        <!-- If using vue-router -->
 
+        <template v-if="userIsSet">
+          <router-view></router-view>
+        </template>
+
+        <template v-else>
+          <AppTop :title="welcomeTitle" :subtitle="welcomeSubTitle" />
+          <PlayerForm :isUser="true" />
+        </template>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import { INIT_APP } from '@/store/index.js';
-import { mapGetters } from 'vuex'
+import { INIT_APP } from "@/store/types.js";
+import { mapGetters } from "vuex";
+import PlayerForm from "@/components/PlayerForm";
+import AppTop from "@/components/AppTop";
 
 export default {
   name: "App",
 
   components: {
+    PlayerForm,
+    AppTop,
   },
 
   data: () => ({
-    drawer: false
+    drawer: false,
+    welcomeTitle: "First time here!",
+    welcomeSubTitle: "Give us your skillz",
   }),
   computed: {
-
-    ...mapGetters([
-      'userIsSet'
-    ])
-
+    ...mapGetters(["userIsSet"]),
   },
 
-  beforeCreate: function(){
-
+  beforeCreate: function() {
     this.$store.dispatch(INIT_APP);
   },
 };
 </script>
 
 <style>
-
-.margin-top{
+.margin-top {
   margin-top: 52px;
 }
 </style>
