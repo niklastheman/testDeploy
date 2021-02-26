@@ -41,14 +41,15 @@
         </v-date-picker>
       </v-menu>
 
-      <v-slider
-        v-model="games"
+      <!-- <v-slider
+        label="Number of sets played"
+        v-model="numberOfSets"
         :tick-labels="ticksLabels"
-        :max="5"
+        :max="4"
         step="1"
         ticks="always"
-        tick-size="6"
-      ></v-slider>
+        tick-size="5"
+      ></v-slider> -->
 
       <v-textarea solo label="Notes"></v-textarea>
 
@@ -68,15 +69,22 @@ export default {
     select: null,
     date: new Date().toISOString().substr(0, 10),
     menu: false,
-    value: 0,
-    games: 0,
-    ticksLabels: [1, 2, 3, 4, 5, 6],
+    // numberOfSets: 0,
+    // ticksLabels: [1, 2, 3, 4, 5],
   }),
   computed: {
-    ...mapState({
+    ...mapState("opponents/",{
       opponents: "opponents",
     }),
   },
+  methods: {
+
+    submit: function() {
+
+      
+    }
+
+  }
 };
 </script>
 
