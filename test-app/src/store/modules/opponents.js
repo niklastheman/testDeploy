@@ -1,25 +1,31 @@
+const NAMESPACE = "opponents/";
 //mutations
-const SET_OPPONENTS = "SET_OPPONENTS";
-const ADD_OPPONENT = "ADD_OPPONENT";
-const REMOVE_OPPONENT = "REMOVE_OPPONENT";
+const _SET_OPPONENTS = "SET_OPPONENTS";
+const _ADD_OPPONENT = "ADD_OPPONENT";
+const _REMOVE_OPPONENT = "REMOVE_OPPONENT";
+
+const SET_OPPONENTS = `${NAMESPACE}${_SET_OPPONENTS}`;
+const ADD_OPPONENT = `${NAMESPACE}${_ADD_OPPONENT}`;
+const REMOVE_OPPONENT = `${NAMESPACE}${_REMOVE_OPPONENT}`;
 
 // data types
 const OPPONENTS = "OPPONENTS";
 
-export { SET_OPPONENTS, ADD_OPPONENT, REMOVE_OPPONENT, OPPONENTS };
+export { NAMESPACE, SET_OPPONENTS, ADD_OPPONENT, REMOVE_OPPONENT, OPPONENTS };
 
 export default {
+  namespaced:true,
   state: {
     opponents: [],
   },
   mutations: {
-    [SET_OPPONENTS](state, payload) {
+    [_SET_OPPONENTS](state, payload) {
       state.opponents = payload;
     },
-    [ADD_OPPONENT](state, payload) {
+    [_ADD_OPPONENT](state, payload) {
       state.opponents.push(payload);
     },
-    [REMOVE_OPPONENT](state, payload) {
+    [_REMOVE_OPPONENT](state, payload) {
       const indexOf = state.opponents.indexOf(payload);
       state.opponents.splice(indexOf, 1);
     },

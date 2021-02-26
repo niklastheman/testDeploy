@@ -30,7 +30,7 @@ export default {
   }),
 
   computed: {
-    ...mapState({
+    ...mapState("opponents/", {
       opponents: "opponents",
     }),
   },
