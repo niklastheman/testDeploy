@@ -73,7 +73,7 @@ export default {
         }
     },
     computed: {
-        switchLabel() {
+        switchLabel: function() {
 
             return this.lefty ? 'Lefty': 'Righty';
         }

@@ -3,12 +3,12 @@
     <v-tabs-items v-model="tabs">
       <v-tab-item>
         <v-container fluid>
-          <opponent-list />
+          <OpponentList />
         </v-container>
       </v-tab-item>
       <v-tab-item>
         <v-container fluid>
-          <player-form />
+          <PlayerForm />
         </v-container>
       </v-tab-item>
     </v-tabs-items>

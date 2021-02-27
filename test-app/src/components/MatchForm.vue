@@ -41,16 +41,6 @@
         </v-date-picker>
       </v-menu>
 
-      <!-- <v-slider
-        label="Number of sets played"
-        v-model="numberOfSets"
-        :tick-labels="ticksLabels"
-        :max="4"
-        step="1"
-        ticks="always"
-        tick-size="5"
-      ></v-slider> -->
-
       <v-textarea solo label="Notes"></v-textarea>
 
       <v-btn class="mr-4" type="submit">
@@ -61,6 +51,8 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
+import { ADD_MATCHES } from "@/store/modules/matches.js";
 import { mapState } from "vuex";
 
 export default {
@@ -69,22 +61,27 @@ export default {
     select: null,
     date: new Date().toISOString().substr(0, 10),
     menu: false,
-    // numberOfSets: 0,
-    // ticksLabels: [1, 2, 3, 4, 5],
   }),
   computed: {
-    ...mapState("opponents/",{
+    ...mapState("opponents/", {
       opponents: "opponents",
     }),
   },
   methods: {
-
     submit: function() {
+      const id = uuidv4();
 
-      
-    }
+      const match = {
+        id: id,
+        opponentId: this.select,
+        date: this.date,
+      };
 
-  }
+      this.$store.dispatch(ADD_MATCHES, match);
+      this.$refs.form.reset();
+      this.$emit("submit");
+    },
+  },
 };
 </script>
 

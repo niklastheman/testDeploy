@@ -22,10 +22,6 @@ export default {
         text: "Lefty",
         value: "lefty",
       },
-      {
-        text: "Active",
-        value: "active",
-      },
     ],
   }),
 
