@@ -20,7 +20,25 @@ export default {
     sets: {},
     games: {},
   },
-  getters: {},
+  getters: {
+    matches: (state, getters, rootState) => {
+      const result = [];
+      const opponentState = rootState["opponents"];
+
+      const opponents = opponentState.opponents;
+
+      for (const match of state.matches) {
+        const obj = {
+          ...match,
+          displayName: opponents[match.opponentId].displayName,
+        };
+
+        result.push(obj);
+      }
+
+      return result;
+    },
+  },
   mutations: {
     [_SET_MATCHES](state, payload) {
       state.matches = payload;

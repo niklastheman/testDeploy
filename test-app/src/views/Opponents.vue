@@ -8,7 +8,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-container fluid>
-          <PlayerForm />
+          <PlayerForm @submit="onSubmit" />
         </v-container>
       </v-tab-item>
     </v-tabs-items>
@@ -33,9 +33,22 @@ import PlayerForm from "../components/PlayerForm.vue";
 import OpponentList from "../components/OpponentList.vue";
 export default {
   components: { OpponentList, PlayerForm },
+  created: function(){
 
+    if(Object.values(this.$store.state.opponents.opponents).length == 0){
+
+      this.tabs = 1;
+    }
+  },
   data: () => ({
-    tabs: null,
+    tabs: 0,
   }),
+  methods: {
+
+    onSubmit: function(){
+      
+      this.tabs = 0;
+    }
+  }
 };
 </script>

@@ -53,7 +53,7 @@
 <script>
 import { v4 as uuidv4 } from "uuid";
 import { ADD_MATCHES } from "@/store/modules/matches.js";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
@@ -63,7 +63,7 @@ export default {
     menu: false,
   }),
   computed: {
-    ...mapState("opponents/", {
+    ...mapGetters("opponents/", {
       opponents: "opponents",
     }),
   },

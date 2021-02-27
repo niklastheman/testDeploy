@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     headers: [
@@ -26,7 +26,7 @@ export default {
   }),
 
   computed: {
-    ...mapState("opponents/", {
+    ...mapGetters("opponents/", {
       opponents: "opponents",
     }),
   },

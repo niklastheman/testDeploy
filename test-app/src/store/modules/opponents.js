@@ -14,20 +14,25 @@ const OPPONENTS = "OPPONENTS";
 export { NAMESPACE, SET_OPPONENTS, ADD_OPPONENT, REMOVE_OPPONENT, OPPONENTS };
 
 export default {
-  namespaced:true,
+  namespaced: true,
   state: {
-    opponents: [],
+    opponents: {},
+  },
+  getters: {
+    opponents: (state) => Object.values(state.opponents),
   },
   mutations: {
     [_SET_OPPONENTS](state, payload) {
       state.opponents = payload;
     },
     [_ADD_OPPONENT](state, payload) {
-      state.opponents.push(payload);
+      state.opponents = {
+        ...state.opponents,
+        [payload.id]: payload
+      }
     },
     [_REMOVE_OPPONENT](state, payload) {
-      const indexOf = state.opponents.indexOf(payload);
-      state.opponents.splice(indexOf, 1);
+      delete state.opponents[payload.id];
     },
   },
   actions: {
