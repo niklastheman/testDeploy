@@ -38,6 +38,8 @@ export default {
 
       return result;
     },
+
+    matchById: (state) => (id) => state.matches.find((match) => match.id == id),
   },
   mutations: {
     [_SET_MATCHES](state, payload) {
@@ -54,6 +56,12 @@ export default {
   actions: {
     [_ADD_MATCHES]({ commit, state }, payload) {
       commit(_ADD_MATCHES, payload);
+      localStorage.setItem(MATCHES, JSON.stringify(state.matches));
+    },
+    [_REMOVE_MATCHES]({ commit, state, getters }, payload) {
+      //payload == id
+      const match = getters.matchById(payload);
+      commit(_REMOVE_MATCHES, match);
       localStorage.setItem(MATCHES, JSON.stringify(state.matches));
     },
   },
