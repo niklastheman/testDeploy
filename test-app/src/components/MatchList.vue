@@ -22,7 +22,7 @@
     >
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
-          mdi-pencil
+          mdi-play
         </v-icon>
         <v-icon small @click="deleteItem(item)">
           mdi-delete
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { REMOVE_MATCHES } from "@/store/modules/matches.js";
+import { SET_ACTIVE_MATCH, REMOVE_MATCHES } from "@/store/modules/matches.js";
 import { mapGetters } from "vuex";
 export default {
   data: () => ({
@@ -60,6 +60,11 @@ export default {
     }),
   },
   methods: {
+    editItem(item){
+
+      this.$store.commit(SET_ACTIVE_MATCH, item.id);
+      this.$emit("selected");
+    },
     deleteItem(item) {
       this.editedId = item.id;
       this.editedItem = Object.assign({}, item);

@@ -14,7 +14,7 @@
     </v-tabs-items>
 
     <v-footer app padless>
-      <v-tabs v-model="tabs" centered>
+      <v-tabs v-model="tabs" fixed-tabs>
         <v-tabs-slider color="yellow"></v-tabs-slider>
 
         <v-tab>

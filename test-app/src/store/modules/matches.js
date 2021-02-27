@@ -1,21 +1,24 @@
 const NAMESPACE = "matches/";
 //mutations
 const _SET_MATCHES = "SET_MATCHES";
+const _SET_ACTIVE_MATCH = "_SET_ACTIVE_MATCH";
 const _ADD_MATCHES = "ADD_MATCHES";
 const _REMOVE_MATCHES = "REMOVE_MATCHES";
 
 const SET_MATCHES = `${NAMESPACE}${_SET_MATCHES}`;
+const SET_ACTIVE_MATCH = `${NAMESPACE}${_SET_ACTIVE_MATCH}`;
 const ADD_MATCHES = `${NAMESPACE}${_ADD_MATCHES}`;
 const REMOVE_MATCHES = `${NAMESPACE}${_REMOVE_MATCHES}`;
 
 // data types
 const MATCHES = "MATCHES";
 
-export { NAMESPACE, SET_MATCHES, ADD_MATCHES, REMOVE_MATCHES, MATCHES };
+export { NAMESPACE, SET_MATCHES, SET_ACTIVE_MATCH, ADD_MATCHES, REMOVE_MATCHES, MATCHES };
 
 export default {
   namespaced: true,
   state: {
+    activeMatchId: null,
     matches: [],
     sets: {},
     games: {},
@@ -40,6 +43,8 @@ export default {
     },
 
     matchById: (state) => (id) => state.matches.find((match) => match.id == id),
+
+    activeMatch: (state, getters) => getters.matchById(state.activeMatchId)
   },
   mutations: {
     [_SET_MATCHES](state, payload) {
@@ -52,6 +57,10 @@ export default {
       const indexOf = state.matches.indexOf(payload);
       state.matches.splice(indexOf, 1);
     },
+    [_SET_ACTIVE_MATCH](state, payload){
+
+      state.activeMatchId = payload;
+    }
   },
   actions: {
     [_ADD_MATCHES]({ commit, state }, payload) {

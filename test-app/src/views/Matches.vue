@@ -3,7 +3,7 @@
     <v-tabs-items v-model="tabs">
       <v-tab-item>
         <v-container fluid>
-          <MatchList />
+          <MatchList @selected="onSelected" />
         </v-container>
       </v-tab-item>
       <v-tab-item>
@@ -14,7 +14,7 @@
     </v-tabs-items>
 
     <v-footer app padless>
-      <v-tabs v-model="tabs" centered>
+      <v-tabs v-model="tabs" fixed-tabs>
         <v-tabs-slider color="yellow"></v-tabs-slider>
 
         <v-tab>
@@ -25,6 +25,10 @@
           <v-icon>mdi-plus</v-icon>
           Add
         </v-tab>
+        <v-tab :disabled="!activeMatch">
+          <v-icon>mdi-play</v-icon>
+          Match
+        </v-tab>
       </v-tabs>
     </v-footer>
   </div>
@@ -33,6 +37,7 @@
 <script>
 import MatchList from "../components/MatchList.vue";
 import MatchForm from "../components/MatchForm.vue";
+import { mapGetters } from 'vuex';
 
 export default {
   created: function(){
@@ -46,12 +51,21 @@ export default {
   data: () => ({
     tabs: 0,
   }),
+  computed: {
 
+    ...mapGetters("matches/", [
+      "activeMatch"
+    ])
+  },
   methods: {
     
     onSubmit: function(){
 
       this.tabs = 0;
+    },
+    onSelected: function(){
+
+      this.tabs = 2;
     }
   }
 };
