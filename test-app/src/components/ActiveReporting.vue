@@ -1,6 +1,6 @@
 <template>
   <div>
-    Set form
+    Active reporting
   </div>
 </template>
 

@@ -11,7 +11,7 @@
       </v-btn>
     </v-btn-toggle>
 
-    <v-tabs v-model="tabs" show-arrows>
+    <v-tabs v-model="tabs" show-arrows fixed-tabs>
       <v-tabs-slider color="yellow"></v-tabs-slider>
       <v-tab v-for="(set, index) in localSets" :key="index">
         Set{{ index + 1 }}
