@@ -11,6 +11,11 @@
           <MatchForm @submit="onSubmit" />
         </v-container>
       </v-tab-item>
+      <v-tab-item>
+        <v-container fluid>
+          <ActiveMatch />
+        </v-container>
+      </v-tab-item>
     </v-tabs-items>
 
     <v-footer app padless>
@@ -37,6 +42,7 @@
 <script>
 import MatchList from "../components/MatchList.vue";
 import MatchForm from "../components/MatchForm.vue";
+import ActiveMatch from "../components/ActiveMatch.vue";
 import { mapGetters } from 'vuex';
 
 export default {
@@ -47,7 +53,7 @@ export default {
       this.tabs = 1;
     }
   },
-  components: { MatchList, MatchForm },
+  components: { MatchList, MatchForm, ActiveMatch },
   data: () => ({
     tabs: 0,
   }),
