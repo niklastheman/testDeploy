@@ -12,7 +12,7 @@
         </v-container>
       </v-tab-item>
       <v-tab-item>
-        <v-container fluid>
+        <v-container v-if="tabs == 2">
           <ActiveMatch />
         </v-container>
       </v-tab-item>
