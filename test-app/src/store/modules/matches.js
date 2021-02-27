@@ -25,7 +25,7 @@ export {
   REMOVE_MATCHES,
   MATCHES,
   ADD_SET,
-  SET_SETS
+  SET_SETS,
 };
 
 export default {
@@ -77,7 +77,6 @@ export default {
       state.activeMatchId = payload;
     },
     [_ADD_SET](state, payload) {
-      
       if (!state.sets[state.activeMatchId]) {
         state.sets = {
           ...state.sets,
@@ -87,10 +86,9 @@ export default {
 
       state.sets[state.activeMatchId].push(payload);
     },
-    [_SET_SETS](state, payload){
-
+    [_SET_SETS](state, payload) {
       state.sets[state.activeMatchId] = payload;
-    }
+    },
   },
   actions: {
     [_ADD_MATCHES]({ commit, state }, payload) {
@@ -102,6 +100,6 @@ export default {
       const match = getters.matchById(payload);
       commit(_REMOVE_MATCHES, match);
       localStorage.setItem(MATCHES, JSON.stringify(state.matches));
-    }
+    },
   },
 };

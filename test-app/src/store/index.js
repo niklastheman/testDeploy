@@ -15,6 +15,7 @@ export default new Vuex.Store({
     userIsSet: (state) => {
       return state.activeUser != null;
     },
+    displayName: state => state.activeUser ? state.activeUser.displayName: '' 
   },
   mutations: mutations,
   actions: actions,

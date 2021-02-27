@@ -20,6 +20,12 @@ export default {
   },
   getters: {
     opponents: (state) => Object.values(state.opponents),
+    opponentById: (state) => (id) => state.opponents[id],
+    activeMatchOpponent: (state, getter, rootState, rootGetters) => {
+      const activeMatch = rootGetters["matches/activeMatch"];
+
+      return getter.opponentById(activeMatch.opponentId);
+    },
   },
   mutations: {
     [_SET_OPPONENTS](state, payload) {
@@ -28,8 +34,8 @@ export default {
     [_ADD_OPPONENT](state, payload) {
       state.opponents = {
         ...state.opponents,
-        [payload.id]: payload
-      }
+        [payload.id]: payload,
+      };
     },
     [_REMOVE_OPPONENT](state, payload) {
       delete state.opponents[payload.id];
