@@ -2,14 +2,18 @@
   <div>
     <AppTop :title="'Sets'" />
 
-    <v-btn-toggle>
-      <v-btn :disabled="localSets.length <= 0" @click="removeSet">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-btn :disabled="localSets.length >= 5" @click="addSet">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </v-btn-toggle>
+    <v-card-text>
+      <v-slider
+        @change="onChange"
+        :label="'Number of sets'"
+        v-model="numberOfSets"
+        :tick-labels="ticksLabels"
+        :max="4"
+        step="1"
+        ticks="always"
+        tick-size="5"
+      ></v-slider>
+    </v-card-text>
 
     <v-tabs v-model="tabs" show-arrows fixed-tabs>
       <v-tabs-slider color="yellow"></v-tabs-slider>
@@ -47,6 +51,8 @@ export default {
   data: () => ({
     tabs: 0,
     localSets: [],
+    numberOfSets: 0,
+    ticksLabels: [1, 2, 3, 4, 5],
   }),
   computed: {
     ...mapGetters("matches/", {
@@ -55,6 +61,18 @@ export default {
     }),
   },
   methods: {
+    onChange: function() {
+      const acctualNum = this.numberOfSets + 1;
+
+      while (acctualNum != this.localSets.length) {
+        if (acctualNum > this.localSets.length) {
+          this.addSet();
+        } else {
+          this.removeSet();
+        }
+      }
+      console.log("onChange");
+    },
     addSet: function() {
       const existing = this.sets[this.localSets.length];
 

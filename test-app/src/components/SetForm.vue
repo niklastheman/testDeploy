@@ -55,7 +55,7 @@
           <v-btn color="primary" @click="e6 = 3">
             Continue
           </v-btn>
-          <v-btn text>
+          <v-btn text @click="e6 = 1">
             Previous
           </v-btn>
         </v-stepper-content>
@@ -78,7 +78,7 @@
           <v-btn color="primary" @click="e6 = 4">
             Continue
           </v-btn>
-          <v-btn text>
+          <v-btn text @click="e6 = 2">
             Previous
           </v-btn>
         </v-stepper-content>
@@ -95,6 +95,9 @@
           />
           <v-btn class="mr-4" type="submit">
             submit
+          </v-btn>
+          <v-btn text @click="e6 = 3">
+            Previous
           </v-btn>
         </v-stepper-content>
       </v-stepper>
