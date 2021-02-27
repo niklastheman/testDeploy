@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+    <v-navigation-drawer v-model="drawer" absolute bottom app>
       <v-list nav dense>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <router-link to="/">
@@ -29,9 +29,9 @@
     </v-navigation-drawer>
 
     <v-app-bar
-      absolute
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
+      app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -42,7 +42,7 @@
 
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container class="margin-top">
+      <v-container>
         <!-- If using vue-router -->
 
         <template v-if="userIsSet">
@@ -55,6 +55,7 @@
         </template>
       </v-container>
     </v-main>
+
   </v-app>
 </template>
 
@@ -69,7 +70,7 @@ export default {
 
   components: {
     PlayerForm,
-    AppTop,
+    AppTop
   },
 
   data: () => ({
@@ -92,7 +93,5 @@ export default {
 </script>
 
 <style>
-.margin-top {
-  margin-top: 52px;
-}
+
 </style>
