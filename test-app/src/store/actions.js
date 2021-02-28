@@ -1,5 +1,5 @@
 import { SET_USER, INIT_APP, USER } from "./types.js";
-import { SET_MATCHES, MATCHES } from "./modules/matches.js";
+import { SET_MATCHES, MATCHES, SET_SETS, SETS } from "./modules/matches.js";
 import { SET_OPPONENTS, OPPONENTS } from "./modules/opponents.js";
 
 export default {
@@ -24,9 +24,16 @@ export default {
     if (matches != null) {
       commit(SET_MATCHES, matches);
     }
+
+    const setsObj = localStorage.getItem(SETS);
+    const sets = JSON.parse(setsObj);
+
+    if (sets != null) {
+      commit(SET_SETS, sets);
+    }
   },
-  [SET_USER]({ commit }, payload) {
-    commit(SET_USER, payload);
-    localStorage.setItem(USER, JSON.stringify(payload));
+  [SET_USER]({ commit }, user) {
+    commit(SET_USER, user);
+    localStorage.setItem(USER, JSON.stringify(user));
   },
 };
