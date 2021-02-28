@@ -35,7 +35,7 @@ import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
 import AppTop from "@/components/AppTop";
 import ActiveSet from "@/components/ActiveSet";
-import { ADD_SET_ACTIVE_MATCH, SET_SETS } from "@/store/modules/matches.js";
+import { ADD_SET_ACTIVE_MATCH, SET_SETS_ACTIVE_MATCH } from "@/store/modules/matches.js";
 export default {
   components: {
     AppTop,
@@ -47,7 +47,7 @@ export default {
     this.numberOfSets = this.localSets.length - 1;
   },
   destroyed: function() {
-    this.$store.dispatch(SET_SETS, this.localSets);
+    this.$store.dispatch(SET_SETS_ACTIVE_MATCH, this.localSets);
   },
   data: () => ({
     tabs: 0,

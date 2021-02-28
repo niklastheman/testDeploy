@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="submit">
+    <v-form ref="form" v-model="valid" lazy-validation>
       <v-stepper v-model="e6" vertical>
         <v-stepper-step :complete="e6 > 1" step="1">
           Games
@@ -31,7 +31,7 @@
             ></v-slider>
           </v-card-text>
           <v-btn color="primary" @click="e6 = 2">
-            Continue
+            Next
           </v-btn>
         </v-stepper-content>
 
@@ -53,7 +53,7 @@
           />
 
           <v-btn color="primary" @click="e6 = 3">
-            Continue
+            Next
           </v-btn>
           <v-btn text @click="e6 = 1">
             Previous
@@ -77,8 +77,8 @@
             v-model="winnersBackhandOpponent"
           />
 
-           <v-btn color="primary" @click="e6 = 4">
-            Continue
+          <v-btn color="primary" @click="e6 = 4">
+            Next
           </v-btn>
           <v-btn text @click="e6 = 2">
             Previous
@@ -100,7 +100,7 @@
             v-model="unforcedBackhandUser"
           />
           <v-btn color="primary" @click="e6 = 5">
-            Continue
+            Next
           </v-btn>
           <v-btn text @click="e6 = 3">
             Previous
@@ -122,7 +122,7 @@
             v-model="unforcedBackhandOpponent"
           />
           <v-btn color="primary" @click="e6 = 6">
-            Continue
+            Next
           </v-btn>
           <v-btn text @click="e6 = 4">
             Previous
@@ -140,7 +140,7 @@
             v-model="doubleFaultsUser"
           />
           <v-btn color="primary" @click="e6 = 7">
-            Continue
+            Next
           </v-btn>
           <v-btn text @click="e6 = 5">
             Previous
@@ -157,9 +157,6 @@
             :label="'Double faults'"
             v-model="doubleFaultsOpponent"
           />
-          <v-btn class="mr-4" type="submit">
-            Submit
-          </v-btn>
           <v-btn text @click="e6 = 6">
             Previous
           </v-btn>
@@ -172,6 +169,10 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  destroyed: function() {
+
+    
+  },
   data: () => ({
     valid: true,
     numberOfGamesUser: null,
@@ -205,9 +206,6 @@ export default {
       displayNameUser: "displayName",
     }),
     ...mapGetters("opponents/", ["activeMatchOpponent"]),
-  },
-  methods: {
-    submit: function() {},
   },
 };
 </script>

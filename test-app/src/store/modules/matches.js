@@ -9,7 +9,10 @@ const _REMOVE_MATCHES = "REMOVE_MATCHES";
 const _ADD_SET = "ADD_SET";
 const _ADD_SET_ACTIVE_MATCH = "_ADD_SET_ACTIVE_MATCH";
 const _SET_SETS = "_SET_SETS";
+const _SET_SETS_MATCH = "_SET_SETS_MATCH";
 const _REMOVE_SETS_OF_MATCH = "_REMOVE_SETS_OF_MATCH";
+const _SET_GAMES_ACTIVE_MATCH = "_SET_GAMES_ACTIVE_MATCH";
+const _SET_SETS_ACTIVE_MATCH = "_SET_SETS_ACTIVE_MATCH";
 
 const SET_MATCHES = `${NAMESPACE}${_SET_MATCHES}`;
 const SET_ACTIVE_MATCH = `${NAMESPACE}${_SET_ACTIVE_MATCH}`;
@@ -18,6 +21,9 @@ const REMOVE_MATCHES = `${NAMESPACE}${_REMOVE_MATCHES}`;
 const ADD_SET = `${NAMESPACE}${_ADD_SET}`;
 const ADD_SET_ACTIVE_MATCH = `${NAMESPACE}${_ADD_SET_ACTIVE_MATCH}`;
 const SET_SETS = `${NAMESPACE}${_SET_SETS}`;
+const SET_SETS_MATCH = `${NAMESPACE}${_SET_SETS_MATCH}`;
+const SET_GAMES_ACTIVE_MATCH = `${NAMESPACE}${_SET_GAMES_ACTIVE_MATCH}`;
+const SET_SETS_ACTIVE_MATCH = `${NAMESPACE}${_SET_SETS_ACTIVE_MATCH}`;
 
 // data types
 const MATCHES = "MATCHES";
@@ -34,6 +40,9 @@ export {
   ADD_SET_ACTIVE_MATCH,
   SET_SETS,
   SETS,
+  SET_GAMES_ACTIVE_MATCH,
+  SET_SETS_ACTIVE_MATCH,
+  SET_SETS_MATCH,
 };
 
 export default {
@@ -94,7 +103,10 @@ export default {
 
       state.sets[matchId].push(set);
     },
-    [_SET_SETS](state, { matchId, sets }) {
+    [_SET_SETS](state, sets) {
+      state.sets = sets;
+    },
+    [_SET_SETS_MATCH](state, { matchId, sets }) {
       state.sets[matchId] = sets;
     },
     [_REMOVE_SETS_OF_MATCH](state, payload) {
@@ -125,7 +137,7 @@ export default {
       }
     },
     [_ADD_SET]({ commit, state }, payload) {
-      console.log(payload)
+      console.log(payload);
       commit(_ADD_SET, payload);
       localStorage.setItem(SETS, JSON.stringify(state.sets));
     },
@@ -135,8 +147,8 @@ export default {
         set: set,
       });
     },
-    [_SET_SETS]({ commit, state }, sets) {
-      commit(_SET_SETS, {
+    [_SET_SETS_ACTIVE_MATCH]({ commit, state }, sets) {
+      commit(_SET_SETS_MATCH, {
         matchId: state.activeMatchId,
         sets: sets,
       });
@@ -146,5 +158,6 @@ export default {
       commit(_REMOVE_SETS_OF_MATCH, matchId);
       localStorage.setItem(SETS, JSON.stringify(state.sets));
     },
+    // [_SET_GAMES_ACTIVE_MATCH]({commit}, )
   },
 };
