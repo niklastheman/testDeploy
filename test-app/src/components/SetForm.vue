@@ -168,16 +168,27 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { SET_GAMES_ACTIVE_MATCH } from "@/store/modules/matches.js";
 export default {
   destroyed: function() {
-
     
+    const obj = {
+      ...this.$data,
+    };
+
+    delete obj.valid;
+    delete obj.ticksLabels;
+    delete obj.e6;
+
+    obj["setId"] = this.id;
+
+    this.$store.dispatch(SET_GAMES_ACTIVE_MATCH, obj);
   },
   data: () => ({
     valid: true,
+    ticksLabels: [1, 2, 3, 4, 5, 6, 7],
     numberOfGamesUser: null,
     numberOfGamesOpponent: null,
-    ticksLabels: [1, 2, 3, 4, 5, 6, 7],
     unforcedForehandUser: null,
     unforcedBackhandUser: null,
     unforcedForehandOpponent: null,

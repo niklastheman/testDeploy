@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import gameLogic from "@/logic/gameLogic.js";
 
 const NAMESPACE = "matches/";
 //mutations
@@ -137,7 +138,6 @@ export default {
       }
     },
     [_ADD_SET]({ commit, state }, payload) {
-      console.log(payload);
       commit(_ADD_SET, payload);
       localStorage.setItem(SETS, JSON.stringify(state.sets));
     },
@@ -158,6 +158,9 @@ export default {
       commit(_REMOVE_SETS_OF_MATCH, matchId);
       localStorage.setItem(SETS, JSON.stringify(state.sets));
     },
-    // [_SET_GAMES_ACTIVE_MATCH]({commit}, )
+    [_SET_GAMES_ACTIVE_MATCH]({ commit }, obj) {
+      console.log(commit);
+      gameLogic(obj);
+    },
   },
 };
