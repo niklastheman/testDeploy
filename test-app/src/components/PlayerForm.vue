@@ -26,14 +26,14 @@ export default {
   props: {
     isUser: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
     valid: true,
     displayName: "",
     lefty: false,
-    active: true,
+    active: true
   }),
   methods: {
     submit: function() {
@@ -41,7 +41,7 @@ export default {
       const opponent = {
         id: id,
         displayName: this.displayName,
-        lefty: this.lefty ?? false,
+        lefty: this.lefty ?? false
       };
 
       if (this.isUser == false) {
@@ -52,13 +52,13 @@ export default {
 
       this.$refs.form.reset();
       this.$emit("submit");
-    },
+    }
   },
   computed: {
     switchLabel: function() {
       return this.lefty ? "Lefty" : "Righty";
-    },
-  },
+    }
+  }
 };
 </script>
 

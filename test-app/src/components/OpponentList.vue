@@ -16,20 +16,20 @@ export default {
         text: "Name",
         align: "start",
         sortable: true,
-        value: "displayName",
+        value: "displayName"
       },
       {
         text: "Lefty",
-        value: "lefty",
-      },
-    ],
+        value: "lefty"
+      }
+    ]
   }),
 
   computed: {
     ...mapGetters("opponents/", {
-      opponents: "opponents",
-    }),
-  },
+      opponents: "opponents"
+    })
+  }
 };
 </script>
 

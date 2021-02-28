@@ -43,7 +43,7 @@ export {
   SETS,
   SET_GAMES_ACTIVE_MATCH,
   SET_SETS_ACTIVE_MATCH,
-  SET_SETS_MATCH,
+  SET_SETS_MATCH
 };
 
 export default {
@@ -52,7 +52,7 @@ export default {
     activeMatchId: null,
     matches: [],
     sets: {},
-    games: {},
+    games: {}
   },
   getters: {
     matches: (state, getters, rootState) => {
@@ -64,7 +64,7 @@ export default {
       for (const match of state.matches) {
         const obj = {
           ...match,
-          displayName: opponents[match.opponentId].displayName,
+          displayName: opponents[match.opponentId].displayName
         };
 
         result.push(obj);
@@ -73,12 +73,12 @@ export default {
       return result;
     },
 
-    matchById: (state) => (id) => state.matches.find((match) => match.id == id),
+    matchById: state => id => state.matches.find(match => match.id == id),
     activeMatch: (state, getters) => getters.matchById(state.activeMatchId),
-    setsByMatchId: (state) => (id) => state.sets[id] ?? [],
+    setsByMatchId: state => id => state.sets[id] ?? [],
     activeMatchSets: (state, getters) =>
       getters.setsByMatchId(state.activeMatchId),
-    gamesBySetId: (state) => (id) => state.games[id] ?? [],
+    gamesBySetId: state => id => state.games[id] ?? []
   },
   mutations: {
     [_SET_MATCHES](state, payload) {
@@ -98,7 +98,7 @@ export default {
       if (!state.sets[matchId]) {
         state.sets = {
           ...state.sets,
-          [matchId]: [],
+          [matchId]: []
         };
       }
 
@@ -112,7 +112,7 @@ export default {
     },
     [_REMOVE_SETS_OF_MATCH](state, payload) {
       delete state.sets[payload];
-    },
+    }
   },
   actions: {
     [_ADD_MATCHES]({ commit, state, dispatch }, match) {
@@ -123,7 +123,7 @@ export default {
 
       dispatch(_ADD_SET, {
         matchId: match.id,
-        set: setId,
+        set: setId
       });
     },
     [_REMOVE_MATCHES]({ commit, state, getters, dispatch }, id) {
@@ -144,13 +144,13 @@ export default {
     [_ADD_SET_ACTIVE_MATCH]({ state, dispatch }, set) {
       dispatch(_ADD_SET, {
         matchId: state.activeMatchId,
-        set: set,
+        set: set
       });
     },
     [_SET_SETS_ACTIVE_MATCH]({ commit, state }, sets) {
       commit(_SET_SETS_MATCH, {
         matchId: state.activeMatchId,
-        sets: sets,
+        sets: sets
       });
       localStorage.setItem(SETS, JSON.stringify(state.sets));
     },
@@ -161,6 +161,6 @@ export default {
     [_SET_GAMES_ACTIVE_MATCH]({ commit }, obj) {
       console.log(commit);
       gameLogic(obj);
-    },
-  },
+    }
+  }
 };

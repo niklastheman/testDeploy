@@ -35,11 +35,14 @@ import { v4 as uuidv4 } from "uuid";
 import { mapGetters } from "vuex";
 import AppTop from "@/components/AppTop";
 import ActiveSet from "@/components/ActiveSet";
-import { ADD_SET_ACTIVE_MATCH, SET_SETS_ACTIVE_MATCH } from "@/store/modules/matches.js";
+import {
+  ADD_SET_ACTIVE_MATCH,
+  SET_SETS_ACTIVE_MATCH
+} from "@/store/modules/matches.js";
 export default {
   components: {
     AppTop,
-    ActiveSet,
+    ActiveSet
   },
   created: function() {
     this.localSets = [...this.sets];
@@ -53,13 +56,13 @@ export default {
     tabs: 0,
     localSets: [],
     numberOfSets: 0,
-    ticksLabels: [1, 2, 3, 4, 5],
+    ticksLabels: [1, 2, 3, 4, 5]
   }),
   computed: {
     ...mapGetters("matches/", {
       match: "activeMatch",
-      sets: "activeMatchSets",
-    }),
+      sets: "activeMatchSets"
+    })
   },
   methods: {
     onChange: function() {
@@ -86,8 +89,8 @@ export default {
     },
     removeSet: function() {
       this.localSets.pop();
-    },
-  },
+    }
+  }
 };
 </script>
 

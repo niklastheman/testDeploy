@@ -4,7 +4,7 @@
       {{ _title }}
     </h1>
     <p v-if="displaySubtitle">
-        {{subtitle}}
+      {{ subtitle }}
     </p>
   </div>
 </template>
@@ -12,33 +12,30 @@
 <script>
 export default {
   created: function() {
-
-      this.title
+    this.title;
   },
   props: {
     displayTitle: {
       type: Boolean,
-      default: true,
+      default: true
     },
     title: {
-      type: String
-      , default: null
+      type: String,
+      default: null
     },
     displaySubtitle: {
       type: Boolean,
-      default: true,
+      default: true
     },
     subtitle: {
-      type: String
-      , default: null
-    },
+      type: String,
+      default: null
+    }
   },
   computed: {
-
-      _title: function(){
-
-          return this.title ?? this.$route.name;
-      }
+    _title: function() {
+      return this.title ?? this.$route.name;
+    }
   }
 };
 </script>

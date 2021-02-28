@@ -42,26 +42,25 @@ export default {
         text: "Name",
         align: "start",
         sortable: true,
-        value: "displayName",
+        value: "displayName"
       },
       {
         text: "Date",
-        value: "date",
+        value: "date"
       },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Actions", value: "actions", sortable: false }
     ],
     dialogDelete: false,
     editedId: null,
-    editedItem: null,
+    editedItem: null
   }),
   computed: {
     ...mapGetters("matches/", {
-      matches: "matches",
-    }),
+      matches: "matches"
+    })
   },
   methods: {
-    editItem(item){
-
+    editItem(item) {
       this.$store.commit(SET_ACTIVE_MATCH, item.id);
       this.$emit("selected");
     },
@@ -72,7 +71,6 @@ export default {
     },
 
     deleteItemConfirm() {
-      
       this.$store.dispatch(REMOVE_MATCHES, this.editedId);
       this.closeDelete();
     },
@@ -83,8 +81,8 @@ export default {
         this.editedItem = null;
         this.editedId = null;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

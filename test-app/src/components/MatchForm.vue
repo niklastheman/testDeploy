@@ -4,7 +4,7 @@
       <v-select
         v-model="select"
         :items="opponents"
-        :rules="[(v) => !!v || 'Item is required']"
+        :rules="[v => !!v || 'Item is required']"
         item-text="displayName"
         item-value="id"
         label="Opponent"
@@ -60,12 +60,12 @@ export default {
     valid: true,
     select: null,
     date: new Date().toISOString().substr(0, 10),
-    menu: false,
+    menu: false
   }),
   computed: {
     ...mapGetters("opponents/", {
-      opponents: "opponents",
-    }),
+      opponents: "opponents"
+    })
   },
   methods: {
     submit: function() {
@@ -74,14 +74,14 @@ export default {
       const match = {
         id: id,
         opponentId: this.select,
-        date: this.date,
+        date: this.date
       };
 
       this.$store.dispatch(ADD_MATCHES, match);
       this.$refs.form.reset();
       this.$emit("submit");
-    },
-  },
+    }
+  }
 };
 </script>
 

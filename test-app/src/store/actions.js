@@ -35,5 +35,5 @@ export default {
   [SET_USER]({ commit }, user) {
     commit(SET_USER, user);
     localStorage.setItem(USER, JSON.stringify(user));
-  },
+  }
 };

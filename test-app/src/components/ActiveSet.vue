@@ -30,19 +30,19 @@
 
 <script>
 import SetForm from "@/components/SetForm";
-import ActiveReporting from '@/components/ActiveReporting';
+import ActiveReporting from "@/components/ActiveReporting";
 
 export default {
   components: {
     SetForm,
-    ActiveReporting,
+    ActiveReporting
   },
   props: {
     id: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 

@@ -28,14 +28,10 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      elevate-on-scroll
-      scroll-target="#scrolling-techniques-7"
-      app
-    >
+    <v-app-bar elevate-on-scroll scroll-target="#scrolling-techniques-7" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -55,7 +51,6 @@
         </template>
       </v-container>
     </v-main>
-
   </v-app>
 </template>
 
@@ -76,22 +71,19 @@ export default {
   data: () => ({
     drawer: false,
     welcomeTitle: "First time here!",
-    welcomeSubTitle: "Give us your skillz",
+    welcomeSubTitle: "Give us your skillz"
   }),
   computed: {
-    title: function(){
-      
+    title: function() {
       return this.$route.name;
     },
-    ...mapGetters(["userIsSet"]),
+    ...mapGetters(["userIsSet"])
   },
 
   beforeCreate: function() {
     this.$store.dispatch(INIT_APP);
-  },
+  }
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

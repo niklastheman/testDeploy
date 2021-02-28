@@ -33,20 +33,16 @@ import PlayerForm from "../components/PlayerForm.vue";
 import OpponentList from "../components/OpponentList.vue";
 export default {
   components: { OpponentList, PlayerForm },
-  created: function(){
-
-    if(Object.values(this.$store.state.opponents.opponents).length == 0){
-
+  created: function() {
+    if (Object.values(this.$store.state.opponents.opponents).length == 0) {
       this.tabs = 1;
     }
   },
   data: () => ({
-    tabs: 0,
+    tabs: 0
   }),
   methods: {
-
-    onSubmit: function(){
-      
+    onSubmit: function() {
       this.tabs = 0;
     }
   }

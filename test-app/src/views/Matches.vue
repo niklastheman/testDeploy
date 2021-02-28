@@ -43,34 +43,26 @@
 import MatchList from "../components/MatchList.vue";
 import MatchForm from "../components/MatchForm.vue";
 import ActiveMatch from "../components/ActiveMatch.vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  created: function(){
-
-    if(this.$store.state.matches.matches.length == 0){
-      
+  created: function() {
+    if (this.$store.state.matches.matches.length == 0) {
       this.tabs = 1;
     }
   },
   components: { MatchList, MatchForm, ActiveMatch },
   data: () => ({
-    tabs: 0,
+    tabs: 0
   }),
   computed: {
-
-    ...mapGetters("matches/", [
-      "activeMatch"
-    ])
+    ...mapGetters("matches/", ["activeMatch"])
   },
   methods: {
-    
-    onSubmit: function(){
-
+    onSubmit: function() {
       this.tabs = 0;
     },
-    onSelected: function(){
-
+    onSelected: function() {
       this.tabs = 2;
     }
   }

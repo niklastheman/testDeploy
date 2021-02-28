@@ -171,9 +171,8 @@ import { mapGetters } from "vuex";
 import { SET_GAMES_ACTIVE_MATCH } from "@/store/modules/matches.js";
 export default {
   destroyed: function() {
-    
     const obj = {
-      ...this.$data,
+      ...this.$data
     };
 
     delete obj.valid;
@@ -201,23 +200,23 @@ export default {
     winnersBackhandUser: null,
     winnersForehandOpponent: null,
     winnersBackhandOpponent: null,
-    e6: 1,
+    e6: 1
   }),
   props: {
     id: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     displayNameOpponent: function() {
       return this.activeMatchOpponent.displayName;
     },
     ...mapGetters({
-      displayNameUser: "displayName",
+      displayNameUser: "displayName"
     }),
-    ...mapGetters("opponents/", ["activeMatchOpponent"]),
-  },
+    ...mapGetters("opponents/", ["activeMatchOpponent"])
+  }
 };
 </script>
 
