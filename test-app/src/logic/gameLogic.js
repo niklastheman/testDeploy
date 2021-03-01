@@ -53,7 +53,15 @@ const increasePoint = (game, player) => {
   if (game["user"] != POINTS_GAME && game["opponent"] != POINTS_GAME) {
     const otherPlayer = player == "user" ? "opponent" : "user";
 
-    if (game[otherPlayer] != POINTS_AD) {
+    if (pointScoreTypes.indexOf(game[otherPlayer]) < 3) {
+      let indexOf = pointScoreTypes.indexOf(game[player]);
+
+      if (indexOf == 3) {
+        indexOf++;
+      }
+
+      game[player] = pointScoreTypes[indexOf + 1];
+    } else if (game[otherPlayer] == POINTS_40) {
       const indexOf = pointScoreTypes.indexOf(game[player]);
       game[player] = pointScoreTypes[indexOf + 1];
     } else {
@@ -67,7 +75,6 @@ const registerPoint = (game, pointEndingReason) => {
     ? game[pointEndingReason] + 1
     : 1;
 
-  console.log(game);
   if (pointEndingReasonTypes.userPoint.includes(pointEndingReason)) {
     increasePoint(game, "user");
   } else {

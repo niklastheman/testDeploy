@@ -56,8 +56,30 @@ test("register point", () => {
   expect(game.points.includes(ACES_USER)).toBeTruthy();
 });
 
-test("increase point first point", () => {
+test("register game winning point", () => {
+  const game = {
+    user: POINTS_40,
+    opponent: POINTS_15,
+    points: [
+      ACES_USER,
+      DOUBLE_FAULTS_USER,
+      UNFORCED_BACKHAND_OPPONENT,
+      WINNERS_FOREHAND_USER,
+    ],
+  };
+  registerPoint(game, WINNERS_BACKHAND_USER);
 
+  expect(game.user).toBe(POINTS_GAME);
+  expect(game.opponent).toBe(POINTS_15);
+  expect(game.points.length).toBe(5);
+  expect(game.points.includes(ACES_USER)).toBeTruthy();
+  expect(game.points.includes(DOUBLE_FAULTS_USER)).toBeTruthy();
+  expect(game.points.includes(UNFORCED_BACKHAND_OPPONENT)).toBeTruthy();
+  expect(game.points.includes(WINNERS_FOREHAND_USER)).toBeTruthy();
+  expect(game.points.includes(WINNERS_BACKHAND_USER)).toBeTruthy();
+});
+
+test("increase point first point", () => {
   const game = {};
   increasePoint(game, "user");
 
@@ -65,11 +87,21 @@ test("increase point first point", () => {
   expect(game.opponent).toBeUndefined();
 });
 
-test("increase point to ad", () => {
-
+test("increase point to game", () => {
   const game = {
-    user: POINTS_40
-    , opponent: POINTS_40
+    user: POINTS_40,
+    opponent: POINTS_15,
+  };
+  increasePoint(game, "user");
+
+  expect(game.user).toBe(POINTS_GAME);
+  expect(game.opponent).toBe(POINTS_15);
+});
+
+test("increase point to ad", () => {
+  const game = {
+    user: POINTS_40,
+    opponent: POINTS_40,
   };
   increasePoint(game, "opponent");
 
@@ -78,10 +110,9 @@ test("increase point to ad", () => {
 });
 
 test("increase point from ad", () => {
-
   const game = {
-    user: POINTS_40
-    , opponent: POINTS_AD
+    user: POINTS_40,
+    opponent: POINTS_AD,
   };
   increasePoint(game, "user");
 
