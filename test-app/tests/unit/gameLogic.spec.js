@@ -40,11 +40,94 @@ const testObj = {
   winnersBackhandOpponent: 1,
 };
 
-// test("register set", () => {
-//   const result = registerSet(testObj);
+test("register set report style", () => {
+  
+  let unforcedForehandUserExpected = testObj.unforcedForehandUser;
+  let unforcedBackhandUserExpected = testObj.unforcedBackhandUser;
+  let unforcedForehandOpponentExpected = testObj.unforcedForehandOpponent;
+  let unforcedBackhandOpponentExpected = testObj.unforcedBackhandOpponent;
+  let acesUserExpected = testObj.acesUser;
+  let doubleFaultsUserExpected = testObj.doubleFaultsUser;
+  let acesOpponentExpected = testObj.acesOpponent;
+  let doubleFaultsOpponentExpected = testObj.doubleFaultsOpponent;
+  let winnersForehandUserExpected = testObj.winnersForehandUser;
+  let winnersBackhandUserExpected = testObj.winnersBackhandUser;
+  let winnersForehandOpponentExpected = testObj.winnersForehandOpponent;
+  let winnersBackhandOpponentExpected = testObj.winnersBackhandOpponent;
 
-//   expect(result.length).toBe(10);
-// });
+
+  const result = registerSet(testObj);
+
+  let unforcedForehandUser = 0;
+  let unforcedBackhandUser = 0;
+  let unforcedForehandOpponent = 0;
+  let unforcedBackhandOpponent = 0;
+  let acesUser = 0;
+  let doubleFaultsUser = 0;
+  let acesOpponent = 0;
+  let doubleFaultsOpponent = 0;
+  let winnersForehandUser = 0;
+  let winnersBackhandUser = 0;
+  let winnersForehandOpponent = 0;
+  let winnersBackhandOpponent = 0;
+
+  for (const game of result) {
+    for (const point of game.points) {
+      switch (point) {
+        case UNFORCED_FOREHAND_USER:
+          unforcedForehandUser++;
+          break;
+        case UNFORCED_BACKHAND_USER:
+          unforcedBackhandUser++;
+          break;
+        case UNFORCED_FOREHAND_OPPONENT:
+          unforcedForehandOpponent++;
+          break;
+        case UNFORCED_BACKHAND_OPPONENT:
+          unforcedBackhandOpponent++;
+          break;
+        case ACES_USER:
+          acesUser++;
+          break;
+        case DOUBLE_FAULTS_USER:
+          doubleFaultsUser++;
+          break;
+        case ACES_OPPONENT:
+          acesOpponent++;
+          break;
+        case DOUBLE_FAULTS_OPPONENT:
+          doubleFaultsOpponent++;
+          break;
+        case WINNERS_FOREHAND_USER:
+          winnersForehandUser++;
+          break;
+        case WINNERS_BACKHAND_USER:
+          winnersBackhandUser++;
+          break;
+        case WINNERS_FOREHAND_OPPONENT:
+          winnersForehandOpponent++;
+          break;
+        case WINNERS_BACKHAND_OPPONENT:
+          winnersBackhandOpponent++;
+          break;
+      }
+    }
+  }
+
+  expect(result.length).toBe(10);
+  expect(unforcedForehandUser).toBe(unforcedForehandUserExpected);
+  expect(unforcedBackhandUser).toBe(unforcedBackhandUserExpected);
+  expect(unforcedForehandOpponent).toBe(unforcedForehandOpponentExpected);
+  expect(unforcedBackhandOpponent).toBe(unforcedBackhandOpponentExpected);
+  // expect(acesUser).toBe(testObj.acesUser);
+  // expect(doubleFaultsUser).toBe(testObj.doubleFaultsUser);
+  // expect(acesOpponent).toBe(testObj.acesOpponent);
+  // expect(doubleFaultsOpponent).toBe(testObj.doubleFaultsOpponent);
+  expect(winnersForehandUser).toBe(winnersForehandUserExpected);
+  expect(winnersBackhandUser).toBe(winnersBackhandUserExpected);
+  expect(winnersForehandOpponent).toBe(winnersForehandOpponentExpected);
+  expect(winnersBackhandOpponent).toBe(winnersBackhandOpponentExpected);
+});
 
 test("register point", () => {
   const game = {};
