@@ -41,7 +41,6 @@ const testObj = {
 };
 
 test("register set report style", () => {
-  
   let unforcedForehandUserExpected = testObj.unforcedForehandUser;
   let unforcedBackhandUserExpected = testObj.unforcedBackhandUser;
   let unforcedForehandOpponentExpected = testObj.unforcedForehandOpponent;
@@ -54,7 +53,6 @@ test("register set report style", () => {
   let winnersBackhandUserExpected = testObj.winnersBackhandUser;
   let winnersForehandOpponentExpected = testObj.winnersForehandOpponent;
   let winnersBackhandOpponentExpected = testObj.winnersBackhandOpponent;
-
 
   const result = registerSet(testObj);
 
@@ -113,16 +111,17 @@ test("register set report style", () => {
       }
     }
   }
+  console.log(acesUserExpected);
 
   expect(result.length).toBe(10);
   expect(unforcedForehandUser).toBe(unforcedForehandUserExpected);
   expect(unforcedBackhandUser).toBe(unforcedBackhandUserExpected);
   expect(unforcedForehandOpponent).toBe(unforcedForehandOpponentExpected);
   expect(unforcedBackhandOpponent).toBe(unforcedBackhandOpponentExpected);
-  // expect(acesUser).toBe(testObj.acesUser);
-  // expect(doubleFaultsUser).toBe(testObj.doubleFaultsUser);
-  // expect(acesOpponent).toBe(testObj.acesOpponent);
-  // expect(doubleFaultsOpponent).toBe(testObj.doubleFaultsOpponent);
+  expect(acesUser).toBe(acesUserExpected);
+  expect(doubleFaultsUser).toBe(doubleFaultsUserExpected);
+  expect(acesOpponent).toBe(acesOpponentExpected);
+  expect(doubleFaultsOpponent).toBe(doubleFaultsOpponentExpected);
   expect(winnersForehandUser).toBe(winnersForehandUserExpected);
   expect(winnersBackhandUser).toBe(winnersBackhandUserExpected);
   expect(winnersForehandOpponent).toBe(winnersForehandOpponentExpected);
@@ -191,6 +190,18 @@ test("increase point to ad", () => {
   expect(game.user).toBe(POINTS_40);
   expect(game.opponent).toBe(POINTS_AD);
 });
+
+test("increase point from 30 all", () => {
+  const game = {
+    user: POINTS_30,
+    opponent: POINTS_30,
+  };
+  increasePoint(game, "user");
+
+  expect(game.user).toBe(POINTS_40);
+  expect(game.opponent).toBe(POINTS_30);
+});
+
 
 test("increase point from ad", () => {
   const game = {

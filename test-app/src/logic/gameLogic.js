@@ -7,7 +7,6 @@ const POINTS_GAME = "GAME";
 const pointScoreTypes = [
   POINTS_15,
   POINTS_30,
-  POINTS_30,
   POINTS_40,
   POINTS_AD,
   POINTS_GAME,
@@ -29,34 +28,30 @@ const UNSPECIFIED_POINT_USER = "unspecifiedPointUser";
 const UNSPECIFIED_POINT_OPPONENT = "unspecifiedPointOpponent";
 
 const pointEndingReasonTypes = {
-  userPoint: [
+  userRallyPoint: [
     UNFORCED_FOREHAND_OPPONENT,
     UNFORCED_BACKHAND_OPPONENT,
-    ACES_USER,
-    DOUBLE_FAULTS_OPPONENT,
     WINNERS_FOREHAND_USER,
     WINNERS_BACKHAND_USER,
-    UNSPECIFIED_POINT_USER,
   ],
-  opponentPoint: [
+  userServePoint: [ACES_USER, DOUBLE_FAULTS_OPPONENT],
+  opponentRallyPoint: [
     UNFORCED_FOREHAND_USER,
     UNFORCED_BACKHAND_USER,
-    DOUBLE_FAULTS_USER,
-    ACES_OPPONENT,
     WINNERS_FOREHAND_OPPONENT,
     WINNERS_BACKHAND_OPPONENT,
-    UNSPECIFIED_POINT_OPPONENT,
   ],
+  opponentServePoint: [DOUBLE_FAULTS_USER, ACES_OPPONENT],
 };
 
 const increasePoint = (game, player) => {
   if (game["user"] != POINTS_GAME && game["opponent"] != POINTS_GAME) {
     const otherPlayer = player == "user" ? "opponent" : "user";
 
-    if (pointScoreTypes.indexOf(game[otherPlayer]) < 3) {
+    if (pointScoreTypes.indexOf(game[otherPlayer]) < 2) {
       let indexOf = pointScoreTypes.indexOf(game[player]);
 
-      if (indexOf == 3) {
+      if (indexOf == 2) {
         indexOf++;
       }
 
@@ -71,7 +66,11 @@ const increasePoint = (game, player) => {
 };
 
 const registerPoint = (game, pointEndingReason) => {
-  if (pointEndingReasonTypes.userPoint.includes(pointEndingReason)) {
+  if (
+    pointEndingReasonTypes.userRallyPoint.includes(pointEndingReason) ||
+    pointEndingReasonTypes.userServePoint.includes(pointEndingReason) ||
+    pointEndingReason == UNSPECIFIED_POINT_USER
+  ) {
     increasePoint(game, "user");
   } else {
     increasePoint(game, "opponent");
@@ -112,7 +111,7 @@ const getGames = (numberOfGamesUser, numberOfGamesOpponent) => {
   return result;
 };
 
-const registerRallyPoint = (set, game, userPointType, index) => {
+const _registerPoint = (set, game, userPointType, index) => {
   if (set[pointEndingReasonTypes[userPointType][index]] > 0) {
     registerPoint(game, pointEndingReasonTypes[userPointType][index]);
 
@@ -120,7 +119,7 @@ const registerRallyPoint = (set, game, userPointType, index) => {
   } else {
     registerPoint(
       game,
-      userPointType == "userPoint"
+      userPointType == "userRallyPoint" || userPointType == "userServePoint"
         ? UNSPECIFIED_POINT_USER
         : UNSPECIFIED_POINT_OPPONENT
     );
@@ -142,25 +141,22 @@ const registerRallyPoints = (games, set) => {
     let currIndexUserPoints = 0;
     let currIndexOpponentPoints = 0;
     for (const game of games) {
-      if (
-        pointEndingReasonTypes.userPoint[currIndexUserPoints] ==
-        UNSPECIFIED_POINT_USER
-      ) {
+      if (currIndexUserPoints == pointEndingReasonTypes.userRallyPoint.length) {
         currIndexUserPoints = 0;
       }
 
-      registerRallyPoint(set, game, "userPoint", currIndexUserPoints);
+      _registerPoint(set, game, "userRallyPoint", currIndexUserPoints);
 
       currIndexUserPoints++;
 
       if (
-        pointEndingReasonTypes.opponentPoint[currIndexOpponentPoints] ==
-        UNSPECIFIED_POINT_OPPONENT
+        currIndexOpponentPoints ==
+        pointEndingReasonTypes.opponentRallyPoint.length
       ) {
         currIndexOpponentPoints = 0;
       }
 
-      registerRallyPoint(set, game, "opponentPoint", currIndexOpponentPoints);
+      _registerPoint(set, game, "opponentRallyPoint", currIndexOpponentPoints);
 
       currIndexOpponentPoints++;
     }
@@ -168,45 +164,70 @@ const registerRallyPoints = (games, set) => {
 };
 
 const registerServePoints = (games, set) => {
+  let currIndexUserPoints = 0;
+  let currIndexOpponentPoints = 0;
+  const halfSize = Math.ceil(games.length / 2);
 
-}
+  while (
+    (set.acesUser ?? 0) +
+      (set.doubleFaultsOpponent ?? 0) +
+      (games.length > 1
+        ? (set.acesOpponent ?? 0) + (set.doubleFaultsUser ?? 0)
+        : 0) >
+    0
+  ) {
+    for (let i = 0; i < halfSize; i++) {
+      if (currIndexUserPoints == pointEndingReasonTypes.userServePoint.length) {
+        currIndexUserPoints = 0;
+      }
+      const game = games[i];
 
-const registerSet = (
-  set
-  //   {
-  //   numberOfGamesUser,
-  //   numberOfGamesOpponent,
-  //   unforcedForehandUser,
-  //   unforcedBackhandUser,
-  //   unforcedForehandOpponent,
-  //   unforcedBackhandOpponent,
-  //   acesUser,
-  //   doubleFaultsUser,
-  //   acesOpponent,
-  //   doubleFaultsOpponent,
-  //   winnersForehandUser,
-  //   winnersBackhandUser,
-  //   winnersForehandOpponent,
-  //   winnersBackhandOpponent,
-  // }
-) => {
-  // let unforcedForehandUserLeft = unforcedForehandUser;
-  // let unforcedBackhandUserLeft = unforcedBackhandUser;
-  // let unforcedForehandOpponentLeft = unforcedForehandOpponent;
-  // let unforcedBackhandOpponentLeft = unforcedBackhandOpponent;
-  // let acesUserLeft = acesUser;
-  // let doubleFaultsUserLeft = doubleFaultsUser;
-  // let acesOpponentLeft = acesOpponent;
-  // let doubleFaultsOpponentLeft = doubleFaultsOpponent;
-  // let winnersForehandUserLeft = winnersForehandUser;
-  // let winnersBackhandUserLeft = winnersBackhandUser;
-  // let winnersForehandOpponentLeft = winnersForehandOpponent;
-  // let winnersBackhandOpponenLeft = winnersBackhandOpponent;
+      _registerPoint(set, game, "userServePoint", currIndexUserPoints);
+      registerPoint(game, UNSPECIFIED_POINT_OPPONENT);
+      currIndexUserPoints++;
+    }
 
+    for (let i = halfSize; i < games.length; i++) {
+      if (
+        currIndexOpponentPoints ==
+        pointEndingReasonTypes.opponentServePoint.length
+      ) {
+        currIndexOpponentPoints = 0;
+      }
+      const game = games[i];
+
+      _registerPoint(set, game, "opponentServePoint", currIndexOpponentPoints);
+      registerPoint(game, UNSPECIFIED_POINT_USER);
+      currIndexOpponentPoints++;
+    }
+  }
+};
+
+const registerSet = (set) => {
   const result = getGames(set.numberOfGamesUser, set.numberOfGamesOpponent);
 
   registerRallyPoints(result, set);
   registerServePoints(result, set);
+
+  // const gameIndex = 0;
+  
+  // while (
+  //   result.filter((game) => game.user == POINTS_GAME).length !=
+  //   set.numberOfGamesUser
+  // ) {
+  //   if (gameIndex == set.numberOfGamesUser) {
+  //     gameIndex = 0;
+  //   }
+
+  //   registerPoint(result[gameIndex], UNSPECIFIED_POINT_USER);
+  // }
+
+  // while (
+  //   result.filter((game) => game.points[game.points.length - 1]).length !=
+  //   set.numberOfGamesOpponent
+  // ) {
+  //   registerPoint(game, UNSPECIFIED_POINT_OPPONENT);
+  // }
 
   return result;
 };
