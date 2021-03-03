@@ -94,6 +94,7 @@ const getGames = (numberOfGamesUser, numberOfGamesOpponent) => {
       points: [],
     };
 
+    i;
     result.push(game);
   }
 
@@ -104,7 +105,7 @@ const getGames = (numberOfGamesUser, numberOfGamesOpponent) => {
       opponent: null,
       points: [],
     };
-
+    i;
     result.push(game);
   }
 

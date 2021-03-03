@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tabs fixed-tabs>
+    <v-tabs fixed-tabs v-model="tabs">
       <v-tab>
         <v-icon left>
           mdi-play
@@ -14,16 +14,18 @@
         Report
       </v-tab>
 
-      <v-tab-item>
-        <v-card flat>
-          <ActiveReporting :id="id" />
-        </v-card>
-      </v-tab-item>
-      <v-tab-item>
-        <v-card flat>
-          <SetForm :id="id" />
-        </v-card>
-      </v-tab-item>
+      <v-tabs-items v-model="tabs">
+        <v-tab-item>
+          <v-card flat>
+            <ActiveReporting :id="id" />
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat v-if="tabs == 1">
+            <SetForm :id="id" />
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
     </v-tabs>
   </div>
 </template>
@@ -35,14 +37,17 @@ import ActiveReporting from "@/components/ActiveReporting";
 export default {
   components: {
     SetForm,
-    ActiveReporting
+    ActiveReporting,
   },
+  data: () => ({
+    tabs: 0,
+  }),
   props: {
     id: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

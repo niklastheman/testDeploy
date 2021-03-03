@@ -179,6 +179,9 @@ export default {
     delete obj.ticksLabels;
     delete obj.e6;
 
+    obj.numberOfGamesUser++;
+    obj.numberOfGamesOpponent++;
+
     obj["setId"] = this.id;
 
     this.$store.dispatch(SET_GAMES_ACTIVE_MATCH, obj);
