@@ -111,7 +111,7 @@ const getGames = (numberOfGamesUser, numberOfGamesOpponent) => {
   return result;
 };
 
-const _registerPoint = (set, game, userPointType, index) => {
+const registerPointByIndex = (set, game, userPointType, index) => {
   if (set[pointEndingReasonTypes[userPointType][index]] > 0) {
     registerPoint(game, pointEndingReasonTypes[userPointType][index]);
 
@@ -127,27 +127,25 @@ const _registerPoint = (set, game, userPointType, index) => {
 };
 
 const registerRallyPoints = (games, set) => {
- 
+  let currIndexUserPoints = 0;
+  let currIndexOpponentPoints = 0;
   while (
-    (set.unforcedForehandOpponent ?? 0) +
-      (set.unforcedBackhandOpponent ?? 0) +
-      (set.unforcedForehandUser ?? 0) +
-      (set.unforcedBackhandUser ?? 0) +
-      (set.winnersForehandUser ?? 0) +
-      (set.winnersBackhandUser ?? 0) +
-      (set.winnersForehandOpponent ?? 0) +
-      (set.winnersBackhandOpponent ?? 0) >
+    (set[UNFORCED_FOREHAND_OPPONENT] ?? 0) +
+      (set[UNFORCED_BACKHAND_OPPONENT] ?? 0) +
+      (set[UNFORCED_FOREHAND_USER] ?? 0) +
+      (set[UNFORCED_BACKHAND_USER] ?? 0) +
+      (set[WINNERS_FOREHAND_USER] ?? 0) +
+      (set[WINNERS_BACKHAND_USER] ?? 0) +
+      (set[WINNERS_FOREHAND_OPPONENT] ?? 0) +
+      (set[WINNERS_BACKHAND_OPPONENT] ?? 0) >
     0
   ) {
-    let currIndexUserPoints = 0;
-    let currIndexOpponentPoints = 0;
-
     for (const game of games) {
       if (currIndexUserPoints == pointEndingReasonTypes.userRallyPoint.length) {
         currIndexUserPoints = 0;
       }
 
-      _registerPoint(set, game, "userRallyPoint", currIndexUserPoints);
+      registerPointByIndex(set, game, "userRallyPoint", currIndexUserPoints);
 
       currIndexUserPoints++;
 
@@ -158,7 +156,12 @@ const registerRallyPoints = (games, set) => {
         currIndexOpponentPoints = 0;
       }
 
-      _registerPoint(set, game, "opponentRallyPoint", currIndexOpponentPoints);
+      registerPointByIndex(
+        set,
+        game,
+        "opponentRallyPoint",
+        currIndexOpponentPoints
+      );
 
       currIndexOpponentPoints++;
     }
@@ -184,7 +187,7 @@ const registerServePoints = (games, set) => {
       }
       const game = games[i];
 
-      _registerPoint(set, game, "userServePoint", currIndexUserPoints);
+      registerPointByIndex(set, game, "userServePoint", currIndexUserPoints);
       registerPoint(game, UNSPECIFIED_POINT_OPPONENT);
       currIndexUserPoints++;
     }
@@ -198,7 +201,12 @@ const registerServePoints = (games, set) => {
       }
       const game = games[i];
 
-      _registerPoint(set, game, "opponentServePoint", currIndexOpponentPoints);
+      registerPointByIndex(
+        set,
+        game,
+        "opponentServePoint",
+        currIndexOpponentPoints
+      );
       registerPoint(game, UNSPECIFIED_POINT_USER);
       currIndexOpponentPoints++;
     }
@@ -209,31 +217,31 @@ const registerSet = (set) => {
   const result = getGames(set.numberOfGamesUser, set.numberOfGamesOpponent);
 
   registerRallyPoints(result, set);
-  // registerServePoints(result, set);
+  registerServePoints(result, set);
 
   let gameIndex = 0;
 
-  // while (
-  //   result.filter((game) => game.user == POINTS_GAME).length <
-  //   set.numberOfGamesUser
-  // ) {
-  //   while (result[gameIndex].user != POINTS_GAME) {
-  //     registerPoint(result[gameIndex], UNSPECIFIED_POINT_USER);
-  //   }
+  while (
+    result.filter((game) => game.user == POINTS_GAME).length <
+    set.numberOfGamesUser
+  ) {
+    while (result[gameIndex].user != POINTS_GAME) {
+      registerPoint(result[gameIndex], UNSPECIFIED_POINT_USER);
+    }
 
-  //   gameIndex++;
-  // }
+    gameIndex++;
+  }
 
-  // while (
-  //   result.filter((game) => game.opponent == POINTS_GAME).length <
-  //   set.numberOfGamesOpponent
-  // ) {
-  //   while (result[gameIndex].opponent != POINTS_GAME) {
-  //     registerPoint(result[gameIndex], UNSPECIFIED_POINT_OPPONENT);
-  //   }
+  while (
+    result.filter((game) => game.opponent == POINTS_GAME).length <
+    set.numberOfGamesOpponent
+  ) {
+    while (result[gameIndex].opponent != POINTS_GAME) {
+      registerPoint(result[gameIndex], UNSPECIFIED_POINT_OPPONENT);
+    }
 
-  //   gameIndex++;
-  // }
+    gameIndex++;
+  }
 
   return result;
 };

@@ -24,10 +24,10 @@ import {
 } from "@/logic/gameLogic.js";
 
 const testObj = {
-  numberOfGamesUser: 1,
-  numberOfGamesOpponent: 1,
-  // numberOfGamesUser: 6,
-  // numberOfGamesOpponent: 4,
+  // numberOfGamesUser: 1,
+  // numberOfGamesOpponent: 1,
+  numberOfGamesUser: 6,
+  numberOfGamesOpponent: 4,
   unforcedForehandUser: 10,
   unforcedBackhandUser: 15,
   unforcedForehandOpponent: 8,
@@ -114,9 +114,8 @@ test("register set report style", () => {
     }
   }
 
-  console.log(result);
-
   expect(result.length).toBe(10);
+  // expect(result.length).toBe(2);
   expect(unforcedForehandUser).toBe(unforcedForehandUserExpected);
   expect(unforcedBackhandUser).toBe(unforcedBackhandUserExpected);
   expect(unforcedForehandOpponent).toBe(unforcedForehandOpponentExpected);
