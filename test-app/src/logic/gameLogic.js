@@ -127,19 +127,21 @@ const _registerPoint = (set, game, userPointType, index) => {
 };
 
 const registerRallyPoints = (games, set) => {
+ 
   while (
-    set.unforcedForehandOpponent +
-      set.unforcedBackhandOpponent +
-      set.unforcedForehandUser +
-      set.unforcedBackhandUser +
-      set.winnersForehandUser +
-      set.winnersBackhandUser +
-      set.winnersForehandOpponent +
-      set.winnersBackhandOpponent >
+    (set.unforcedForehandOpponent ?? 0) +
+      (set.unforcedBackhandOpponent ?? 0) +
+      (set.unforcedForehandUser ?? 0) +
+      (set.unforcedBackhandUser ?? 0) +
+      (set.winnersForehandUser ?? 0) +
+      (set.winnersBackhandUser ?? 0) +
+      (set.winnersForehandOpponent ?? 0) +
+      (set.winnersBackhandOpponent ?? 0) >
     0
   ) {
     let currIndexUserPoints = 0;
     let currIndexOpponentPoints = 0;
+
     for (const game of games) {
       if (currIndexUserPoints == pointEndingReasonTypes.userRallyPoint.length) {
         currIndexUserPoints = 0;
@@ -207,26 +209,30 @@ const registerSet = (set) => {
   const result = getGames(set.numberOfGamesUser, set.numberOfGamesOpponent);
 
   registerRallyPoints(result, set);
-  registerServePoints(result, set);
+  // registerServePoints(result, set);
 
-  // const gameIndex = 0;
-  
+  let gameIndex = 0;
+
   // while (
-  //   result.filter((game) => game.user == POINTS_GAME).length !=
+  //   result.filter((game) => game.user == POINTS_GAME).length <
   //   set.numberOfGamesUser
   // ) {
-  //   if (gameIndex == set.numberOfGamesUser) {
-  //     gameIndex = 0;
+  //   while (result[gameIndex].user != POINTS_GAME) {
+  //     registerPoint(result[gameIndex], UNSPECIFIED_POINT_USER);
   //   }
 
-  //   registerPoint(result[gameIndex], UNSPECIFIED_POINT_USER);
+  //   gameIndex++;
   // }
 
   // while (
-  //   result.filter((game) => game.points[game.points.length - 1]).length !=
+  //   result.filter((game) => game.opponent == POINTS_GAME).length <
   //   set.numberOfGamesOpponent
   // ) {
-  //   registerPoint(game, UNSPECIFIED_POINT_OPPONENT);
+  //   while (result[gameIndex].opponent != POINTS_GAME) {
+  //     registerPoint(result[gameIndex], UNSPECIFIED_POINT_OPPONENT);
+  //   }
+
+  //   gameIndex++;
   // }
 
   return result;
