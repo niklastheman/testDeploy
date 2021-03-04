@@ -2,6 +2,9 @@ import {
   registerPoint,
   registerSet,
   increasePoint,
+} from "@/logic/statsToGames.js";
+
+import {
   POINTS_15,
   POINTS_30,
   POINTS_40,
@@ -21,7 +24,7 @@ import {
   WINNERS_BACKHAND_OPPONENT,
   UNSPECIFIED_POINT_USER,
   UNSPECIFIED_POINT_OPPONENT,
-} from "@/logic/gameLogic.js";
+} from "@/logic/types.js";
 
 const testObj = {
   // numberOfGamesUser: 1,

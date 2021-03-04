@@ -170,6 +170,10 @@
 import { mapGetters } from "vuex";
 import { SET_GAMES_ACTIVE_MATCH } from "@/store/modules/matches.js";
 export default {
+  created: function(){
+
+    
+  },
   destroyed: function() {
     this.saveChanges();
   },
@@ -208,6 +212,11 @@ export default {
     ...mapGetters("opponents/", ["activeMatchOpponent"]),
   },
   methods: {
+    // onChange: function() {
+
+    //   console.log("hjej")
+    //   this.saveChanges();
+    // },
     saveChanges: function() {
       const obj = {
         ...this.$data,

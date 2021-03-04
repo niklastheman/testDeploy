@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { registerSet } from "@/logic/gameLogic.js";
+import { registerSet } from "@/logic/statsToGames.js";
 
 const NAMESPACE = "matches/";
 //mutations
@@ -79,7 +79,10 @@ export default {
     setsByMatchId: (state) => (id) => state.sets[id] ?? [],
     activeMatchSets: (state, getters) =>
       getters.setsByMatchId(state.activeMatchId),
-    gamesBySetId: (state) => (id) => state.games[id] ?? [],
+    // gamesByMatchSetId: (state) => (id) => {
+
+
+    // },
   },
   mutations: {
     [_SET_MATCHES](state, payload) {
