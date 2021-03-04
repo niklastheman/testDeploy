@@ -171,20 +171,7 @@ import { mapGetters } from "vuex";
 import { SET_GAMES_ACTIVE_MATCH } from "@/store/modules/matches.js";
 export default {
   destroyed: function() {
-    const obj = {
-      ...this.$data,
-    };
-
-    delete obj.valid;
-    delete obj.ticksLabels;
-    delete obj.e6;
-
-    obj.numberOfGamesUser++;
-    obj.numberOfGamesOpponent++;
-
-    obj["setId"] = this.id;
-
-    this.$store.dispatch(SET_GAMES_ACTIVE_MATCH, obj);
+    this.saveChanges();
   },
   data: () => ({
     valid: true,
@@ -219,6 +206,24 @@ export default {
       displayNameUser: "displayName",
     }),
     ...mapGetters("opponents/", ["activeMatchOpponent"]),
+  },
+  methods: {
+    saveChanges: function() {
+      const obj = {
+        ...this.$data,
+      };
+
+      delete obj.valid;
+      delete obj.ticksLabels;
+      delete obj.e6;
+
+      obj.numberOfGamesUser++;
+      obj.numberOfGamesOpponent++;
+
+      obj["setId"] = this.id;
+
+      this.$store.dispatch(SET_GAMES_ACTIVE_MATCH, obj);
+    },
   },
 };
 </script>
