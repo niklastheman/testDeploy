@@ -168,11 +168,23 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { SET_GAMES_ACTIVE_MATCH } from "@/store/modules/matches.js";
+import { SET_GAMES_ACTIVE_MATCH, NAMESPACE } from "@/store/modules/matches.js";
 export default {
-  created: function(){
+  created: function() {
+    const stats = this.$store.getters[`${NAMESPACE}gamesByMatchSetId`](
+      this.$store.state.matches.activeMatchId,
+      this.id
+    );
 
-    
+    for (const key in stats) {
+      if (Object.hasOwnProperty.call(stats, key)) {
+        const stat = stats[key];
+        this.$data[key] =
+          key != "numberOfGamesUser" && key != "numberOfGamesOpponent"
+            ? stat
+            : stat - 1;
+      }
+    }
   },
   destroyed: function() {
     this.saveChanges();

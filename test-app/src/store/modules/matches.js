@@ -1,5 +1,20 @@
 import { v4 as uuidv4 } from "uuid";
-import { registerSet } from "@/logic/statsToGames.js";
+import { convertStatsToGames } from "@/logic/statsToGames.js";
+import { convertGamesToStats } from "@/logic/gamesToStats.js";
+import {
+  UNFORCED_FOREHAND_USER,
+  UNFORCED_BACKHAND_USER,
+  UNFORCED_FOREHAND_OPPONENT,
+  UNFORCED_BACKHAND_OPPONENT,
+  ACES_USER,
+  DOUBLE_FAULTS_USER,
+  ACES_OPPONENT,
+  DOUBLE_FAULTS_OPPONENT,
+  WINNERS_FOREHAND_USER,
+  WINNERS_BACKHAND_USER,
+  WINNERS_FOREHAND_OPPONENT,
+  WINNERS_BACKHAND_OPPONENT,
+} from "@/logic/types.js";
 
 const NAMESPACE = "matches/";
 //mutations
@@ -15,6 +30,7 @@ const _REMOVE_SETS_OF_MATCH = "_REMOVE_SETS_OF_MATCH";
 const _SET_GAMES_ACTIVE_MATCH = "_SET_GAMES_ACTIVE_MATCH";
 const _SET_GAMES_MATCH = "_SET_GAMES_MATCH";
 const _SET_SETS_ACTIVE_MATCH = "_SET_SETS_ACTIVE_MATCH";
+const _SET_GAMES = "_SET_GAMES";
 
 const SET_MATCHES = `${NAMESPACE}${_SET_MATCHES}`;
 const SET_ACTIVE_MATCH = `${NAMESPACE}${_SET_ACTIVE_MATCH}`;
@@ -26,10 +42,12 @@ const SET_SETS = `${NAMESPACE}${_SET_SETS}`;
 const SET_SETS_MATCH = `${NAMESPACE}${_SET_SETS_MATCH}`;
 const SET_GAMES_ACTIVE_MATCH = `${NAMESPACE}${_SET_GAMES_ACTIVE_MATCH}`;
 const SET_SETS_ACTIVE_MATCH = `${NAMESPACE}${_SET_SETS_ACTIVE_MATCH}`;
+const SET_GAMES = `${NAMESPACE}${_SET_GAMES}`;
 
 // data types
 const MATCHES = "MATCHES";
 const SETS = "SETS";
+const GAMES = "GAMES";
 
 export {
   NAMESPACE,
@@ -45,6 +63,8 @@ export {
   SET_GAMES_ACTIVE_MATCH,
   SET_SETS_ACTIVE_MATCH,
   SET_SETS_MATCH,
+  GAMES,
+  SET_GAMES,
 };
 
 export default {
@@ -63,9 +83,30 @@ export default {
       const opponents = opponentState.opponents;
 
       for (const match of state.matches) {
+        let games = [];
+
+        for (const set of getters.setsByMatchId(match.id)) {
+          
+          games = games.concat(state.games[`${match.id}#${set}`]);
+        }
+
+        const stats = convertGamesToStats(games);
+        
         const obj = {
           ...match,
           displayName: opponents[match.opponentId].displayName,
+          [UNFORCED_FOREHAND_USER]: stats[UNFORCED_FOREHAND_USER],
+          [UNFORCED_BACKHAND_USER]: stats[UNFORCED_BACKHAND_USER],
+          [UNFORCED_FOREHAND_OPPONENT]: stats[UNFORCED_FOREHAND_OPPONENT],
+          [UNFORCED_BACKHAND_OPPONENT]: stats[UNFORCED_BACKHAND_OPPONENT],
+          [ACES_USER]: stats[ACES_USER],
+          [DOUBLE_FAULTS_USER]: stats[DOUBLE_FAULTS_USER],
+          [ACES_OPPONENT]: stats[ACES_OPPONENT],
+          [DOUBLE_FAULTS_OPPONENT]: stats[DOUBLE_FAULTS_OPPONENT],
+          [WINNERS_FOREHAND_USER]: stats[WINNERS_FOREHAND_USER],
+          [WINNERS_BACKHAND_USER]: stats[WINNERS_BACKHAND_USER],
+          [WINNERS_FOREHAND_OPPONENT]: stats[WINNERS_FOREHAND_OPPONENT],
+          [WINNERS_BACKHAND_OPPONENT]: stats[WINNERS_BACKHAND_OPPONENT],
         };
 
         result.push(obj);
@@ -79,10 +120,11 @@ export default {
     setsByMatchId: (state) => (id) => state.sets[id] ?? [],
     activeMatchSets: (state, getters) =>
       getters.setsByMatchId(state.activeMatchId),
-    // gamesByMatchSetId: (state) => (id) => {
-
-
-    // },
+    gamesByMatchSetId: (state) => (matchId, setId) => {
+      const games = state.games[`${matchId}#${setId}`];
+      const stats = games ? convertGamesToStats(games) : {};
+      return stats;
+    },
   },
   mutations: {
     [_SET_MATCHES](state, payload) {
@@ -119,6 +161,9 @@ export default {
     },
     [_SET_GAMES_MATCH](state, { matchId, setId, games }) {
       state.games[`${matchId}#${setId}`] = games;
+    },
+    [_SET_GAMES](state, payload) {
+      state.games = payload;
     },
   },
   actions: {
@@ -166,12 +211,13 @@ export default {
       localStorage.setItem(SETS, JSON.stringify(state.sets));
     },
     [_SET_GAMES_ACTIVE_MATCH]({ commit, state }, obj) {
-      const games = registerSet(obj);
+      const games = convertStatsToGames(obj);
       commit(_SET_GAMES_MATCH, {
         games: games,
         setId: obj.setId,
         matchId: state.activeMatchId,
       });
+      localStorage.setItem(GAMES, JSON.stringify(state.games));
     },
   },
 };

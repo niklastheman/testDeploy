@@ -34,8 +34,27 @@
 
 <script>
 import { SET_ACTIVE_MATCH, REMOVE_MATCHES } from "@/store/modules/matches.js";
+import {
+  // UNFORCED_FOREHAND_USER,
+  // UNFORCED_BACKHAND_USER,
+  // UNFORCED_FOREHAND_OPPONENT,
+  // UNFORCED_BACKHAND_OPPONENT,
+  ACES_USER,
+  // DOUBLE_FAULTS_USER,
+  // ACES_OPPONENT,
+  // DOUBLE_FAULTS_OPPONENT,
+  WINNERS_FOREHAND_USER,
+  WINNERS_BACKHAND_USER,
+  // WINNERS_FOREHAND_OPPONENT,
+  // WINNERS_BACKHAND_OPPONENT,
+} from "@/logic/types.js";
+
 import { mapGetters } from "vuex";
 export default {
+  created: function(){
+
+    console.log(this.matches)
+  },
   data: () => ({
     headers: [
       {
@@ -48,7 +67,10 @@ export default {
         text: "Date",
         value: "date"
       },
-      { text: "Actions", value: "actions", sortable: false }
+      { text: "Actions", value: "actions", sortable: false },
+      { text: "Winners forehand", value: WINNERS_FOREHAND_USER, sortable: false },
+      { text: "Winners backhand", value: WINNERS_BACKHAND_USER, sortable: false },
+      { text: "Aces", value: ACES_USER, sortable: false },
     ],
     dialogDelete: false,
     editedId: null,

@@ -90,11 +90,11 @@ const getGames = (numberOfGamesUser, numberOfGamesOpponent) => {
   return result;
 };
 
-const registerPointByIndex = (set, game, userPointType, index) => {
-  if (set[pointEndingReasonTypes[userPointType][index]] > 0) {
+const registerPointByIndex = (stats, game, userPointType, index) => {
+  if (stats[pointEndingReasonTypes[userPointType][index]] > 0) {
     registerPoint(game, pointEndingReasonTypes[userPointType][index]);
 
-    set[pointEndingReasonTypes[userPointType][index]]--;
+    stats[pointEndingReasonTypes[userPointType][index]]--;
   } else {
     registerPoint(
       game,
@@ -105,18 +105,18 @@ const registerPointByIndex = (set, game, userPointType, index) => {
   }
 };
 
-const registerRallyPoints = (games, set) => {
+const registerRallyPoints = (games, stats) => {
   let currIndexUserPoints = 0;
   let currIndexOpponentPoints = 0;
   while (
-    (set[UNFORCED_FOREHAND_OPPONENT] ?? 0) +
-      (set[UNFORCED_BACKHAND_OPPONENT] ?? 0) +
-      (set[UNFORCED_FOREHAND_USER] ?? 0) +
-      (set[UNFORCED_BACKHAND_USER] ?? 0) +
-      (set[WINNERS_FOREHAND_USER] ?? 0) +
-      (set[WINNERS_BACKHAND_USER] ?? 0) +
-      (set[WINNERS_FOREHAND_OPPONENT] ?? 0) +
-      (set[WINNERS_BACKHAND_OPPONENT] ?? 0) >
+    (stats[UNFORCED_FOREHAND_OPPONENT] ?? 0) +
+      (stats[UNFORCED_BACKHAND_OPPONENT] ?? 0) +
+      (stats[UNFORCED_FOREHAND_USER] ?? 0) +
+      (stats[UNFORCED_BACKHAND_USER] ?? 0) +
+      (stats[WINNERS_FOREHAND_USER] ?? 0) +
+      (stats[WINNERS_BACKHAND_USER] ?? 0) +
+      (stats[WINNERS_FOREHAND_OPPONENT] ?? 0) +
+      (stats[WINNERS_BACKHAND_OPPONENT] ?? 0) >
     0
   ) {
     for (const game of games) {
@@ -124,7 +124,7 @@ const registerRallyPoints = (games, set) => {
         currIndexUserPoints = 0;
       }
 
-      registerPointByIndex(set, game, "userRallyPoint", currIndexUserPoints);
+      registerPointByIndex(stats, game, "userRallyPoint", currIndexUserPoints);
 
       currIndexUserPoints++;
 
@@ -136,7 +136,7 @@ const registerRallyPoints = (games, set) => {
       }
 
       registerPointByIndex(
-        set,
+        stats,
         game,
         "opponentRallyPoint",
         currIndexOpponentPoints
@@ -147,16 +147,16 @@ const registerRallyPoints = (games, set) => {
   }
 };
 
-const registerServePoints = (games, set) => {
+const registerServePoints = (games, stats) => {
   let currIndexUserPoints = 0;
   let currIndexOpponentPoints = 0;
   const halfSize = Math.ceil(games.length / 2);
 
   while (
-    (set.acesUser ?? 0) +
-      (set.doubleFaultsOpponent ?? 0) +
+    (stats.acesUser ?? 0) +
+      (stats.doubleFaultsOpponent ?? 0) +
       (games.length > 1
-        ? (set.acesOpponent ?? 0) + (set.doubleFaultsUser ?? 0)
+        ? (stats.acesOpponent ?? 0) + (stats.doubleFaultsUser ?? 0)
         : 0) >
     0
   ) {
@@ -166,7 +166,7 @@ const registerServePoints = (games, set) => {
       }
       const game = games[i];
 
-      registerPointByIndex(set, game, "userServePoint", currIndexUserPoints);
+      registerPointByIndex(stats, game, "userServePoint", currIndexUserPoints);
       registerPoint(game, UNSPECIFIED_POINT_OPPONENT);
       currIndexUserPoints++;
     }
@@ -181,7 +181,7 @@ const registerServePoints = (games, set) => {
       const game = games[i];
 
       registerPointByIndex(
-        set,
+        stats,
         game,
         "opponentServePoint",
         currIndexOpponentPoints
@@ -192,17 +192,17 @@ const registerServePoints = (games, set) => {
   }
 };
 
-const registerSet = (set) => {
-  const result = getGames(set.numberOfGamesUser, set.numberOfGamesOpponent);
+const convertStatsToGames = (stats) => {
+  const result = getGames(stats.numberOfGamesUser, stats.numberOfGamesOpponent);
 
-  registerRallyPoints(result, set);
-  registerServePoints(result, set);
+  registerRallyPoints(result, stats);
+  registerServePoints(result, stats);
 
   let gameIndex = 0;
 
   while (
     result.filter((game) => game.user == POINTS_GAME).length <
-    set.numberOfGamesUser
+    stats.numberOfGamesUser
   ) {
     while (result[gameIndex].user != POINTS_GAME) {
       registerPoint(result[gameIndex], UNSPECIFIED_POINT_USER);
@@ -213,7 +213,7 @@ const registerSet = (set) => {
 
   while (
     result.filter((game) => game.opponent == POINTS_GAME).length <
-    set.numberOfGamesOpponent
+    stats.numberOfGamesOpponent
   ) {
     while (result[gameIndex].opponent != POINTS_GAME) {
       registerPoint(result[gameIndex], UNSPECIFIED_POINT_OPPONENT);
@@ -228,7 +228,7 @@ const registerSet = (set) => {
 export {
   increasePoint,
   registerPoint,
-  registerSet,
+  convertStatsToGames,
   POINTS_15,
   POINTS_30,
   POINTS_40,

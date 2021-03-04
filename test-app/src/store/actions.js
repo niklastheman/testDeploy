@@ -1,5 +1,12 @@
 import { SET_USER, INIT_APP, USER } from "./types.js";
-import { SET_MATCHES, MATCHES, SET_SETS, SETS } from "./modules/matches.js";
+import {
+  SET_MATCHES,
+  MATCHES,
+  SET_SETS,
+  SETS,
+  SET_GAMES,
+  GAMES,
+} from "./modules/matches.js";
 import { SET_OPPONENTS, OPPONENTS } from "./modules/opponents.js";
 
 export default {
@@ -31,9 +38,16 @@ export default {
     if (sets != null) {
       commit(SET_SETS, sets);
     }
+
+    const gamesObj = localStorage.getItem(GAMES);
+    const games = JSON.parse(gamesObj);
+
+    if (games != null) {
+      commit(SET_GAMES, games);
+    }
   },
   [SET_USER]({ commit }, user) {
     commit(SET_USER, user);
     localStorage.setItem(USER, JSON.stringify(user));
-  }
+  },
 };
