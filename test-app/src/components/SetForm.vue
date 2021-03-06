@@ -12,10 +12,10 @@
               :label="displayNameUser"
               v-model="numberOfGamesUser"
               :tick-labels="ticksLabels"
-              :max="6"
+              :max="7"
               step="1"
               ticks="always"
-              tick-size="7"
+              tick-size="8"
             ></v-slider>
           </v-card-text>
 
@@ -24,10 +24,10 @@
               :label="displayNameOpponent"
               v-model="numberOfGamesOpponent"
               :tick-labels="ticksLabels"
-              :max="6"
+              :max="7"
               step="1"
               ticks="always"
-              tick-size="7"
+              tick-size="8"
             ></v-slider>
           </v-card-text>
           <v-btn color="primary" @click="e6 = 2">
@@ -179,10 +179,7 @@ export default {
     for (const key in stats) {
       if (Object.hasOwnProperty.call(stats, key)) {
         const stat = stats[key];
-        this.$data[key] =
-          key != "numberOfGamesUser" && key != "numberOfGamesOpponent"
-            ? stat
-            : stat - 1;
+        this.$data[key] = stat;
       }
     }
   },
@@ -191,7 +188,7 @@ export default {
   },
   data: () => ({
     valid: true,
-    ticksLabels: [1, 2, 3, 4, 5, 6, 7],
+    ticksLabels: [0, 1, 2, 3, 4, 5, 6, 7],
     e6: 1,
     numberOfGamesUser: null,
     numberOfGamesOpponent: null,
@@ -237,9 +234,6 @@ export default {
       delete obj.valid;
       delete obj.ticksLabels;
       delete obj.e6;
-
-      obj.numberOfGamesUser++;
-      obj.numberOfGamesOpponent++;
 
       obj["setId"] = this.id;
 

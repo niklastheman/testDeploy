@@ -91,10 +91,8 @@ export default {
             games = games.concat(gamesOfSet);
           }
         }
-        
-        const stats = convertGamesToStats(games);
 
-       
+        const stats = convertGamesToStats(games);
 
         const obj = {
           ...match,

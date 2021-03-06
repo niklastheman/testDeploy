@@ -1,6 +1,12 @@
 <template>
   <div>
     <AppTop :title="'Sets'" />
+    <v-btn color="error" class="ma-2 white--text" @click="dialogDelete = true">
+      Delete
+      <v-icon right>
+        mdi-beaker-remove
+      </v-icon>
+    </v-btn>
 
     <v-card-text>
       <v-slider
@@ -27,6 +33,20 @@
         <ActiveSet :id="set" />
       </v-tab-item>
     </v-tabs-items>
+
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Delete this match?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialogDelete = false">No!</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+            >Yes!</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -37,16 +57,17 @@ import AppTop from "@/components/AppTop";
 import ActiveSet from "@/components/ActiveSet";
 import {
   ADD_SET_ACTIVE_MATCH,
-  SET_SETS_ACTIVE_MATCH
+  SET_SETS_ACTIVE_MATCH,
+  REMOVE_MATCHES,
 } from "@/store/modules/matches.js";
+
 export default {
   components: {
     AppTop,
-    ActiveSet
+    ActiveSet,
   },
   created: function() {
     this.localSets = [...this.sets];
-
     this.numberOfSets = this.localSets.length - 1;
   },
   destroyed: function() {
@@ -56,13 +77,14 @@ export default {
     tabs: 0,
     localSets: [],
     numberOfSets: 0,
-    ticksLabels: [1, 2, 3, 4, 5]
+    ticksLabels: [1, 2, 3, 4, 5],
+    dialogDelete: false,
   }),
   computed: {
     ...mapGetters("matches/", {
       match: "activeMatch",
-      sets: "activeMatchSets"
-    })
+      sets: "activeMatchSets",
+    }),
   },
   methods: {
     onChange: function() {
@@ -89,8 +111,17 @@ export default {
     },
     removeSet: function() {
       this.localSets.pop();
-    }
-  }
+    },
+
+    deleteItemConfirm() {
+      this.$store.dispatch(
+        REMOVE_MATCHES,
+        this.$store.state.matches.activeMatchId
+      );
+      this.dialogDelete = false;
+      this.$emit("deleted");
+    },
+  },
 };
 </script>
 

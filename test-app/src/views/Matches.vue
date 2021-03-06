@@ -3,17 +3,17 @@
     <v-tabs-items v-model="tabs">
       <v-tab-item>
         <v-container fluid>
-          <MatchList @selected="onSelected" />
+          <MatchList @selected="displayMatch" />
         </v-container>
       </v-tab-item>
       <v-tab-item>
         <v-container fluid>
-          <MatchForm @submit="onSubmit" />
+          <MatchForm @submit="displayList" />
         </v-container>
       </v-tab-item>
       <v-tab-item>
         <v-container v-if="tabs == 2">
-          <ActiveMatch />
+          <ActiveMatch @deleted="displayList" />
         </v-container>
       </v-tab-item>
     </v-tabs-items>
@@ -46,26 +46,26 @@ import ActiveMatch from "../components/ActiveMatch.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  created: function() {
+  created() {
     if (this.$store.state.matches.matches.length == 0) {
       this.tabs = 1;
     }
   },
   components: { MatchList, MatchForm, ActiveMatch },
   data: () => ({
-    tabs: 0
+    tabs: 0,
   }),
   computed: {
-    ...mapGetters("matches/", ["activeMatch"])
+    ...mapGetters("matches/", ["activeMatch"]),
   },
   methods: {
-    onSubmit: function() {
+    displayList() {
       this.tabs = 0;
     },
-    onSelected: function() {
+    displayMatch() {
       this.tabs = 2;
-    }
-  }
+    },
+  },
 };
 </script>
 
