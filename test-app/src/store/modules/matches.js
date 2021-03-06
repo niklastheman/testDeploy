@@ -88,11 +88,13 @@ export default {
         for (const set of getters.setsByMatchId(match.id)) {
           const gamesOfSet = state.games[`${match.id}#${set}`];
           if (gamesOfSet) {
-            games = games.concat();
+            games = games.concat(gamesOfSet);
           }
         }
-
+        
         const stats = convertGamesToStats(games);
+
+       
 
         const obj = {
           ...match,

@@ -19,15 +19,8 @@
       :items="matches"
       :items-per-page="5"
       class="elevation-1"
+      @click:row="editItem"
     >
-      <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">
-          mdi-play
-        </v-icon>
-        <v-icon small @click="deleteItem(item)">
-          mdi-delete
-        </v-icon>
-      </template>
     </v-data-table>
   </div>
 </template>
@@ -51,9 +44,8 @@ import {
 
 import { mapGetters } from "vuex";
 export default {
-  created: function(){
-
-    console.log(this.matches)
+  created: function() {
+    console.log(this.matches);
   },
   data: () => ({
     headers: [
@@ -61,25 +53,32 @@ export default {
         text: "Name",
         align: "start",
         sortable: true,
-        value: "displayName"
+        value: "displayName",
       },
       {
         text: "Date",
-        value: "date"
+        value: "date",
       },
-      { text: "Actions", value: "actions", sortable: false },
-      { text: "Winners forehand", value: WINNERS_FOREHAND_USER, sortable: false },
-      { text: "Winners backhand", value: WINNERS_BACKHAND_USER, sortable: false },
+      {
+        text: "Winners forehand",
+        value: WINNERS_FOREHAND_USER,
+        sortable: false,
+      },
+      {
+        text: "Winners backhand",
+        value: WINNERS_BACKHAND_USER,
+        sortable: false,
+      },
       { text: "Aces", value: ACES_USER, sortable: false },
     ],
     dialogDelete: false,
     editedId: null,
-    editedItem: null
+    editedItem: null,
   }),
   computed: {
     ...mapGetters("matches/", {
-      matches: "matches"
-    })
+      matches: "matches",
+    }),
   },
   methods: {
     editItem(item) {
@@ -103,8 +102,8 @@ export default {
         this.editedItem = null;
         this.editedId = null;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
