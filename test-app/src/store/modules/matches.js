@@ -117,6 +117,50 @@ export default {
       return result;
     },
 
+    sets: (state, getters, rootState) => {
+      const opponentState = rootState["opponents"];
+      const opponents = opponentState.opponents;
+      const result = [];
+
+      for (const matchId in state.sets) {
+        if (Object.hasOwnProperty.call(state.sets, matchId)) {
+          const sets = state.sets[matchId];
+
+          const match = getters.matchById(matchId);
+
+          const displayName = opponents[match.opponentId].displayName;
+
+          for (const set of sets) {
+            const gamesOfSet = state.games[`${match.id}#${set}`];
+
+            if (gamesOfSet) {
+              const stats = convertGamesToStats(gamesOfSet);
+
+              const obj = {
+                displayName: displayName,
+                [UNFORCED_FOREHAND_USER]: stats[UNFORCED_FOREHAND_USER],
+                [UNFORCED_BACKHAND_USER]: stats[UNFORCED_BACKHAND_USER],
+                [UNFORCED_FOREHAND_OPPONENT]: stats[UNFORCED_FOREHAND_OPPONENT],
+                [UNFORCED_BACKHAND_OPPONENT]: stats[UNFORCED_BACKHAND_OPPONENT],
+                [ACES_USER]: stats[ACES_USER],
+                [DOUBLE_FAULTS_USER]: stats[DOUBLE_FAULTS_USER],
+                [ACES_OPPONENT]: stats[ACES_OPPONENT],
+                [DOUBLE_FAULTS_OPPONENT]: stats[DOUBLE_FAULTS_OPPONENT],
+                [WINNERS_FOREHAND_USER]: stats[WINNERS_FOREHAND_USER],
+                [WINNERS_BACKHAND_USER]: stats[WINNERS_BACKHAND_USER],
+                [WINNERS_FOREHAND_OPPONENT]: stats[WINNERS_FOREHAND_OPPONENT],
+                [WINNERS_BACKHAND_OPPONENT]: stats[WINNERS_BACKHAND_OPPONENT],
+              };
+
+              result.push(obj);
+            }
+          }
+        }
+      }
+
+      return result;
+    },
+
     matchById: (state) => (id) => state.matches.find((match) => match.id == id),
     activeMatch: (state, getters) => getters.matchById(state.activeMatchId),
     setsByMatchId: (state) => (id) => state.sets[id] ?? [],
@@ -188,7 +232,7 @@ export default {
       dispatch(_REMOVE_SETS_OF_MATCH, id);
 
       if (id == state.activeMatchId) {
-        commit(_SET_ACTIVE_MATCH, id);
+        commit(_SET_ACTIVE_MATCH, null);
       }
     },
     [_ADD_SET]({ commit, state }, payload) {
