@@ -8,6 +8,7 @@ import {
   GAMES,
 } from "./modules/matches.js";
 import { SET_OPPONENTS, OPPONENTS } from "./modules/opponents.js";
+import { removeNullProperties } from "@/logic/objectHelper";
 
 export default {
   async [INIT_APP]({ commit }) {
@@ -35,12 +36,16 @@ export default {
     const setsObj = localStorage.getItem(SETS);
     const sets = JSON.parse(setsObj);
 
+    removeNullProperties(sets);
+
     if (sets != null) {
       commit(SET_SETS, sets);
     }
 
     const gamesObj = localStorage.getItem(GAMES);
     const games = JSON.parse(gamesObj);
+
+    removeNullProperties(games);
 
     if (games != null) {
       commit(SET_GAMES, games);
