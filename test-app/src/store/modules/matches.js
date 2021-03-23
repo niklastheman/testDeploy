@@ -173,6 +173,23 @@ const getters = {
     const stats = games ? convertGamesToStats(games) : {};
     return stats;
   },
+  setsWithGamesByMatchId: (state, getters) => (matchId) => {
+    const result = [];
+
+    const sets = getters.setsByMatchId(matchId);
+
+    for (const set of sets) {
+      const games = getters.gamesByMatchSetId(matchId, set);
+      result.push({
+        set,
+        games,
+      });
+    }
+
+    return result;
+  },
+  activeMatchSetsWithGames: (state, getters) =>
+    getters.setsWithGamesByMatchId(state.activeMatchId),
 };
 
 const mutations = {
@@ -209,9 +226,7 @@ const mutations = {
     delete state.sets[payload];
   },
   [_REMOVE_GAMES_OF_MATCH](state, payload) {
-    
     for (const key in state.games) {
-
       if (key.startsWith(`${payload}#`)) {
         delete state.games[key];
       }
