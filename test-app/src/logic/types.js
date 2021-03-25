@@ -1,3 +1,4 @@
+const POINTS_0 = "0";
 const POINTS_15 = "15";
 const POINTS_30 = "30";
 const POINTS_40 = "40";
@@ -45,6 +46,7 @@ const pointEndingReasonTypes = {
 };
 
 export {
+  POINTS_0,
   POINTS_15,
   POINTS_30,
   POINTS_40,
@@ -65,5 +67,5 @@ export {
   UNSPECIFIED_POINT_USER,
   UNSPECIFIED_POINT_OPPONENT,
   pointEndingReasonTypes,
-  pointScoreTypes
+  pointScoreTypes,
 };

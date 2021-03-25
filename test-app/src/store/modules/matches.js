@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
-import { convertStatsToGames } from "@/logic/statsToGames.js";
-import { convertGamesToStats } from "@/logic/gamesToStats.js";
+import { convertStatsToGames } from "@/logic/statsToGames";
+import { convertGamesToStats } from "@/logic/gamesToStats";
+import { convertSetsToScore } from "@/logic/setsToScore";
 import {
   UNFORCED_FOREHAND_USER,
   UNFORCED_BACKHAND_USER,
@@ -14,7 +15,7 @@ import {
   WINNERS_BACKHAND_USER,
   WINNERS_FOREHAND_OPPONENT,
   WINNERS_BACKHAND_OPPONENT,
-} from "@/logic/types.js";
+} from "@/logic/types";
 
 const NAMESPACE = "matches/";
 //mutations
@@ -166,9 +167,11 @@ const getters = {
   matchById: (state) => (id) => state.matches.find((match) => match.id == id),
   activeMatch: (state, getters) => getters.matchById(state.activeMatchId),
   setsByMatchId: (state) => (id) => state.sets[id] ?? [],
+  gamesByMatchSetId: (state) => (matchId, setId) =>
+    state.games[`${matchId}#${setId}`] ?? [],
   activeMatchSets: (state, getters) =>
     getters.setsByMatchId(state.activeMatchId),
-  gamesByMatchSetId: (state) => (matchId, setId) => {
+  gameStatsByMatchSetId: (state) => (matchId, setId) => {
     const games = state.games[`${matchId}#${setId}`];
     const stats = games ? convertGamesToStats(games) : {};
     return stats;
@@ -190,6 +193,9 @@ const getters = {
   },
   activeMatchSetsWithGames: (state, getters) =>
     getters.setsWithGamesByMatchId(state.activeMatchId),
+
+  activeMatchScore: (state, getters) =>
+    convertSetsToScore(getters.activeMatchSetsWithGames),
 };
 
 const mutations = {

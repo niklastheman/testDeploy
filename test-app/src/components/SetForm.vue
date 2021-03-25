@@ -171,7 +171,7 @@ import { mapGetters } from "vuex";
 import { SET_GAMES_ACTIVE_MATCH, NAMESPACE } from "@/store/modules/matches.js";
 export default {
   created: function() {
-    const stats = this.$store.getters[`${NAMESPACE}gamesByMatchSetId`](
+    const stats = this.$store.getters[`${NAMESPACE}gameStatsByMatchSetId`](
       this.$store.state.matches.activeMatchId,
       this.id
     );
