@@ -196,6 +196,48 @@ const getters = {
 
   activeMatchScore: (state, getters) =>
     convertSetsToScore(getters.activeMatchSetsWithGames),
+
+  shotsSummarized: (state) => {
+    let games = [];
+
+    for (const key in state.games) {
+      if (Object.hasOwnProperty.call(state.games, key)) {
+        games = games.concat(state.games[key]);
+      }
+    }
+
+    return convertGamesToStats(games);
+  },
+  shotsSummarizedArray: (state, getters) => {
+    const result = [];
+    const obj = getters.shotsSummarized;
+
+    for (const key in obj) {
+      if (
+        Object.hasOwnProperty.call(obj, key) &&
+        key != "numberOfGamesUser" &&
+        key != "numberOfGamesOpponent"
+      ) {
+        const value = obj[key];
+
+        result.push({ key: key, value: value });
+      }
+    }
+
+    result.sort((a, b) => {
+      let comparison = 0;
+
+      if (a.value < b.value) {
+        comparison = 1;
+      } else if (a.value > b.value) {
+        comparison = -1;
+      }
+
+      return comparison;
+    });
+
+    return result;
+  },
 };
 
 const mutations = {
