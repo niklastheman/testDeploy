@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-for="(shot, i) in worsShots" :key="i">
+    <p v-for="(shot, i) in bestShots" :key="i">
       <strong>
         {{ shot.key }}
       </strong>
@@ -11,11 +11,12 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { pointEndingReasonTypes } from "@/logic/types";
 
 export default {
   created() {
     console.log(this.shotsSummarized);
-    console.log(this.worsShots);
+    console.log(this.bestShots);
   },
   data() {
     return {
@@ -27,10 +28,14 @@ export default {
     ...mapGetters("matches/", {
       shotsSummarized: "shotsSummarizedArray",
     }),
-    worsShots() {
-      return this.shotsSummarized.slice(
-        this.shotsSummarized.length - this.nBestShots
-      );
+    bestShots() {
+      return this.shotsSummarized
+        .filter(
+          (s) =>
+            pointEndingReasonTypes.opponentRallyPoint.indexOf(s.key) > -1 ||
+            pointEndingReasonTypes.opponentServePoint.indexOf(s.key) > -1
+        )
+        .slice(0, this.nBestShots);
     },
   },
 };

@@ -11,6 +11,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { pointEndingReasonTypes } from "@/logic/types";
 
 export default {
   created() {
@@ -28,7 +29,13 @@ export default {
       shotsSummarized: "shotsSummarizedArray",
     }),
     bestShots() {
-      return this.shotsSummarized.slice(0, this.nBestShots);
+      return this.shotsSummarized
+        .filter(
+          (s) =>
+            pointEndingReasonTypes.userRallyPoint.indexOf(s.key) > -1 ||
+            pointEndingReasonTypes.userServePoint.indexOf(s.key) > -1
+        )
+        .slice(0, this.nBestShots);
     },
   },
 };
