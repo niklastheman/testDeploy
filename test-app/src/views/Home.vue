@@ -17,7 +17,7 @@
           <BestShots />
         </v-col>
         <v-col>
-          <AppTop :title="'Wors shots'" />
+          <AppTop :title="'Worst shots'" />
           <WorstShots />
         </v-col>
       </v-row>
