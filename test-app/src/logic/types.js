@@ -28,6 +28,14 @@ const WINNERS_BACKHAND_OPPONENT = "winnersBackhandOpponent";
 const UNSPECIFIED_POINT_USER = "unspecifiedPointUser";
 const UNSPECIFIED_POINT_OPPONENT = "unspecifiedPointOpponent";
 
+const UNFORCED_FOREHANDS_DISPLAY_NAME = "Unforced forehands";
+const UNFORCED_BACKHANDS_DISPLAY_NAME = "Unforced backhands";
+const ACES_DISPLAY_NAME = "Aces";
+const DOUBLE_FAULTS_DISPLAY_NAME = "Double faults";
+const WINNERS_FOREHAND_DISPLAY_NAME = "Winners forehand";
+const WINNERS_BACKHAND_DISPLAY_NAME = "Winners backhand";
+const UNSPECIFIED_POINTS_DISPLAY_NAME = "Unspecified points";
+
 const pointEndingReasonTypes = {
   userRallyPoint: [
     UNFORCED_FOREHAND_OPPONENT,
@@ -68,4 +76,11 @@ export {
   UNSPECIFIED_POINT_OPPONENT,
   pointEndingReasonTypes,
   pointScoreTypes,
+  UNFORCED_FOREHANDS_DISPLAY_NAME,
+  UNFORCED_BACKHANDS_DISPLAY_NAME,
+  ACES_DISPLAY_NAME,
+  DOUBLE_FAULTS_DISPLAY_NAME,
+  WINNERS_FOREHAND_DISPLAY_NAME,
+  WINNERS_BACKHAND_DISPLAY_NAME,
+  UNSPECIFIED_POINTS_DISPLAY_NAME,
 };

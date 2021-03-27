@@ -2,7 +2,7 @@
   <div>
     <p v-for="(shot, i) in bestShots" :key="i">
       <strong>
-        {{ shot.key }}
+        {{ shot.displayName }}
       </strong>
       : {{ shot.value }}
     </p>
@@ -12,6 +12,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { pointEndingReasonTypes } from "@/logic/types";
+import { addShotTranslation } from "@/logic/propertyTranslate";
 
 export default {
   created() {
@@ -29,13 +30,17 @@ export default {
       shotsSummarized: "shotsSummarizedArray",
     }),
     bestShots() {
-      return this.shotsSummarized
+      const shots = this.shotsSummarized
         .filter(
           (s) =>
             pointEndingReasonTypes.opponentRallyPoint.indexOf(s.key) > -1 ||
             pointEndingReasonTypes.opponentServePoint.indexOf(s.key) > -1
         )
         .slice(0, this.nBestShots);
+
+      addShotTranslation(shots);
+
+      return shots;
     },
   },
 };
