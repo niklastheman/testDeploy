@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" absolute bottom app>
+    <v-navigation-drawer v-model="drawer" absolute app>
       <v-list nav dense>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <router-link to="/">
