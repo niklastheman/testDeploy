@@ -16,8 +16,6 @@ import { addShotTranslation } from "@/logic/propertyTranslate";
 
 export default {
   created() {
-    console.log(this.shotsSummarized);
-    console.log(this.bestShots);
   },
   data() {
     return {

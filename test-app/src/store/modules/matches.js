@@ -238,6 +238,57 @@ const getters = {
 
     return result;
   },
+  scoreSummarized: (state, getters) => {
+    const result = {
+      user: {
+        matches: 0,
+        sets: 0,
+        games: 0,
+      },
+      opponent: {
+        matches: 0,
+        sets: 0,
+        games: 0,
+      },
+    };
+
+    for (const match of state.matches) {
+      const sets = state.sets[match.id];
+      const matchSets = [];
+
+      for (const set of sets) {
+        const games = getters.gamesByMatchSetId(match.id, set);
+
+        matchSets.push({
+          set,
+          games,
+        });
+      }
+      const matchStats = convertSetsToScore(matchSets);
+      result.user.sets += matchStats.user.sets;
+      result.opponent.sets += matchStats.opponent.sets;
+
+      for (const gameScore of matchStats.user.games) {
+        result.user.games += gameScore;
+      }
+
+      for (const gameScore of matchStats.opponent.games) {
+        result.opponent.games += gameScore;
+      }
+
+      if (
+        matchStats.user.sets > matchStats.opponent.sets ||
+        (matchStats.user.sets == matchStats.opponent.sets &&
+          matchStats.user.games > matchStats.opponent.games)
+      ) {
+        result.user.matches++;
+      } else {
+        result.opponent.matches++;
+      }
+    }
+
+    return result;
+  },
 };
 
 const mutations = {
